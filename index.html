@@ -5,285 +5,614 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
       <title> Complete Life Dashboard 🌱🧠💪 📈🚀</title>
       <link rel="icon" type="image/x-icon" href="download.jpg">
-   <style>
+  <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
         }
 
+        /* Premium Aesthetic Color Theme */
         :root {
-            --bg-primary: #f1f5f9;
-            --bg-card: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --border-light: #e2e8f0;
-            --accent: #2563eb;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --reward-gold: #fbbf24;
-            --card-shadow: 0 8px 20px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.05);
-            --input-bg: white;
-            --tab-active: #ffffff;
+            --bg-gradient-1: #667eea;
+            --bg-gradient-2: #764ba2;
+            --bg-gradient-3: #f093fb;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-primary: #1e1e2e;
+            --text-secondary: #4a5568;
+            --accent-primary: #667eea;
+            --accent-secondary: #764ba2;
+            --accent-glow: rgba(102, 126, 234, 0.4);
+            --success: #48bb78;
+            --warning: #ed8936;
+            --danger: #f56565;
+            --reward-gold: #f6ad55;
+            --border-light: rgba(255, 255, 255, 0.3);
+            --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+            --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.3);
         }
 
         body.dark {
-            --bg-primary: #0f172a;
-            --bg-card: #1e293b;
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --border-light: #334155;
-            --accent: #3b82f6;
-            --card-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            --input-bg: #334155;
-            --tab-active: #1e293b;
-            --reward-gold: #f59e0b;
+            --bg-gradient-1: #1a1a2e;
+            --bg-gradient-2: #16213e;
+            --bg-gradient-3: #0f3460;
+            --card-bg: rgba(26, 26, 46, 0.95);
+            --text-primary: #f7fafc;
+            --text-secondary: #cbd5e0;
+            --accent-primary: #9f7aea;
+            --accent-secondary: #b794f4;
+            --accent-glow: rgba(159, 122, 234, 0.4);
+            --border-light: rgba(255, 255, 255, 0.1);
         }
 
-        body { background: var(--bg-primary); color: var(--text-primary); padding: 2rem 1.5rem; }
-        .app-container { max-width: 1400px; margin: 0 auto; }
+        body {
+            background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2), var(--bg-gradient-3));
+            background-attachment: fixed;
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+        }
 
-        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
-        h1 { font-size: 1.9rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), #8b5cf6); background-clip: text; -webkit-background-clip: text; color: transparent; }
-        .theme-toggle, .add-section-btn { background: var(--bg-card); border: 1px solid var(--border-light); padding: 0.5rem 1rem; border-radius: 40px; cursor: pointer; }
+        /* Animated Background Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-100px) translateX(50px) rotate(180deg); opacity: 0.6; }
+        }
 
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Glassmorphism Header */
+        .header {
+            backdrop-filter: blur(20px);
+            background: var(--card-bg);
+            border-radius: 80px;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+        .theme-toggle, .add-section-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-light);
+            padding: 0.6rem 1.2rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .theme-toggle:hover, .add-section-btn:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Rewards Banner */
         .rewards-banner {
-            background: linear-gradient(135deg, var(--reward-gold), var(--accent));
-            border-radius: 20px;
-            padding: 1rem 1.5rem;
-            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--reward-gold), var(--accent-primary));
+            border-radius: 30px;
+            padding: 1.2rem 2rem;
+            margin-bottom: 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
             color: white;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
         }
-        .points-display { display: flex; align-items: center; gap: 10px; font-size: 1.3rem; font-weight: bold; }
-        .achievement-badge { background: rgba(255,255,255,0.2); padding: 0.3rem 0.8rem; border-radius: 40px; font-size: 0.8rem; }
+        .rewards-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: shimmer 8s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        .points-display {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            backdrop-filter: blur(10px);
+        }
+        .achievement-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
 
-        .tabs { display: flex; flex-wrap: wrap; gap: 0.75rem; border-bottom: 2px solid var(--border-light); margin-bottom: 2rem; overflow-x: auto; padding-bottom: 0.5rem; }
-        .tab-btn { background: none; border: none; padding: 0.7rem 1.2rem; font-size: 0.9rem; font-weight: 600; cursor: pointer; border-radius: 40px; color: var(--text-secondary); white-space: nowrap; }
-        .tab-btn.active { background: var(--tab-active); color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .tab-close { margin-left: 8px; background: var(--danger); padding: 2px 8px; border-radius: 20px; font-size: 10px; color: white; cursor: pointer; }
+        /* Tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(20px);
+            background: var(--card-bg);
+            border-radius: 60px;
+            padding: 0.5rem;
+            border: 1px solid var(--border-light);
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            transform: scale(1.02);
+        }
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
 
-        .panel { display: none; animation: fade 0.2s ease; }
+        .panel {
+            display: none;
+            animation: fadeSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         .panel.active-panel { display: block; }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        .card { background: var(--bg-card); border-radius: 28px; padding: 1.5rem; box-shadow: var(--card-shadow); margin-bottom: 2rem; border: 1px solid var(--border-light); }
-        .card-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 1.2rem; border-left: 4px solid var(--accent); padding-left: 1rem; }
+        /* Glass Cards */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 1.8rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
 
-        .grid-2col { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.8rem; }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Reward Shop */
+        .reward-shop {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .reward-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+            backdrop-filter: blur(10px);
+        }
+        .reward-item:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow-glow);
+        }
+        .reward-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.8rem;
+        }
+        .reward-name {
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .reward-cost {
+            color: var(--reward-gold);
+            font-weight: bold;
+            margin: 0.8rem 0;
+            font-size: 1.1rem;
+        }
+        .reward-cost span {
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+        .redeem-btn {
+            background: linear-gradient(135deg, var(--reward-gold), var(--warning));
+            width: 100%;
+            margin-top: 0.5rem;
+            font-weight: 700;
+            padding: 0.7rem;
+        }
+        .redeem-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .redeemed-items {
+            margin-top: 2rem;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+        }
 
         .timer-display {
             font-size: 5rem;
             font-weight: 800;
             font-family: monospace;
             text-align: center;
-            background: var(--bg-primary);
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
             padding: 1.5rem;
+            letter-spacing: 8px;
+        }
+
+        .todo-item, .word-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid var(--border-light);
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            padding: 0.6rem 1.2rem;
             border-radius: 60px;
-            letter-spacing: 6px;
-        }
-        .pomo-controls, .timer-presets { display: flex; justify-content: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; }
-        .preset-btn { background: var(--bg-primary); border: 1px solid var(--border-light); padding: 0.5rem 1rem; border-radius: 40px; cursor: pointer; }
-        .custom-timer { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
-        .custom-timer input { width: 100px; text-align: center; background: var(--input-bg); border: 1px solid var(--border-light); border-radius: 40px; padding: 0.5rem; }
-
-        .timer-status {
-            text-align: center;
-            margin-top: 1rem;
-            padding: 0.5rem;
-            border-radius: 40px;
-            font-weight: 500;
-        }
-        .timer-status.active { background: var(--success); color: white; animation: pulse 1s infinite; }
-        .timer-status.paused { background: var(--warning); color: white; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
-
-        .todo-item { background: var(--bg-primary); border-radius: 20px; padding: 0.8rem 1rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 12px; border: 1px solid var(--border-light); }
-        .todo-content { flex: 1; }
-        .todo-text { font-weight: 500; }
-        .todo-actions button { background: none; border: none; font-size: 1rem; cursor: pointer; padding: 0.3rem 0.8rem; border-radius: 40px; }
-
-        .data-selector { margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
-        .data-selector select, .data-selector input { flex: 1; padding: 0.7rem; border-radius: 40px; background: var(--input-bg); border: 1px solid var(--border-light); }
-        .data-viewer { background: var(--bg-primary); border-radius: 20px; padding: 1rem; max-height: 500px; overflow-y: auto; }
-        .data-entry { padding: 0.8rem; border-bottom: 1px solid var(--border-light); }
-        .stats-badge { background: var(--accent); color: white; padding: 0.2rem 0.8rem; border-radius: 20px; display: inline-block; margin-bottom: 0.5rem; }
-
-        .reward-toast { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, var(--reward-gold), var(--accent)); color: white; padding: 1rem 1.5rem; border-radius: 60px; font-weight: bold; z-index: 1000; animation: rewardPop 0.5s ease; }
-        @keyframes rewardPop { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.2); } 100% { transform: scale(1); opacity: 1; } }
-
-        button { background: var(--accent); border: none; padding: 0.6rem 1.2rem; border-radius: 40px; font-weight: 500; color: white; cursor: pointer; }
-        button.secondary { background: var(--text-secondary); }
-        button.danger { background: var(--danger); }
-        button.success { background: var(--success); }
-        input, select, textarea { background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--border-light); padding: 0.7rem 1rem; border-radius: 40px; }
-
-        @keyframes fade { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
-        @media (max-width: 640px) { body { padding: 1rem; } .timer-display { font-size: 3rem; letter-spacing: 2px; } }
-        
-        .live-badge {
-            background: var(--success);
+            font-weight: 600;
             color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+        button.danger { background: linear-gradient(135deg, var(--danger), #c53030); }
+        button.success { background: linear-gradient(135deg, var(--success), #38a169); }
+
+        input, select {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-light);
+            padding: 0.7rem 1rem;
+            border-radius: 60px;
+            color: var(--text-primary);
+        }
+
+        .reward-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--reward-gold), var(--accent-primary));
+            color: white;
+            padding: 1rem 1.8rem;
+            border-radius: 60px;
+            font-weight: bold;
+            z-index: 1000;
+            animation: slideInRight 0.5s ease;
+            box-shadow: var(--shadow-lg);
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .live-badge {
+            background: linear-gradient(135deg, var(--success), #38a169);
+            padding: 4px 12px;
+            border-radius: 60px;
             font-size: 10px;
-            margin-left: 8px;
             animation: pulse 1s infinite;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .data-viewer {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 1rem;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .points-progress {
+            margin-top: 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 60px;
+            overflow: hidden;
+            height: 8px;
+        }
+        .points-progress-bar {
+            background: linear-gradient(135deg, var(--reward-gold), var(--accent-primary));
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.75rem;
+            opacity: 0.7;
+            padding: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .timer-display { font-size: 3rem; letter-spacing: 4px; }
+            .reward-shop { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
         }
     </style>
 </head>
 <body>
+<div class="particles" id="particles"></div>
+
 <div class="app-container">
     <div class="header">
-        <h1>📊 Complete Life Dashboard <span id="liveTimerBadge" style="display:none;" class="live-badge">🔴 LIVE</span></h1>
-        <button class="theme-toggle" id="themeToggleBtn">🌙 Dark Mode</button>
-        <button id="addNewSectionBtn" class="add-section-btn">➕ Add Custom Section</button>
+        <h1>✨ Complete Life Dashboard | Premium Rewards</h1>
+        <div style="display: flex; gap: 0.8rem;">
+            <button class="theme-toggle" id="themeToggleBtn">🌙 Dark Mode</button>
+            <button id="addNewSectionBtn" class="add-section-btn">➕ Add Section</button>
+        </div>
     </div>
 
     <div class="rewards-banner">
         <div class="points-display"><span>🏆</span><span id="totalPoints">0</span><span>Points</span></div>
         <div class="achievement-badge" id="achievementBadge">✨ Keep going!</div>
+        <div class="points-progress" style="width: 200px;">
+            <div class="points-progress-bar" id="pointsProgressBar"></div>
+        </div>
     </div>
 
     <div class="tabs" id="tabsContainer">
         <button class="tab-btn active" data-tab="tab-todo">✅ Daily Tasks</button>
-        <button class="tab-btn" data-tab="tab-pomo">🍅 Pomodoro Timer</button>
+        <button class="tab-btn" data-tab="tab-pomo">🍅 Pomodoro</button>
         <button class="tab-btn" data-tab="tab-words">📖 Word Vault</button>
-        <button class="tab-btn" data-tab="tab-health">💪 Health Tracker</button>
+        <button class="tab-btn" data-tab="tab-health">💪 Health</button>
+        <button class="tab-btn" data-tab="tab-shop">🎁 Reward Shop</button>
         <button class="tab-btn" data-tab="tab-data">📊 Insights</button>
     </div>
 
     <!-- Daily Tasks Panel -->
     <div id="tab-todo" class="panel active-panel">
         <div class="card">
-            <div class="card-title">📋 Daily Tasks</div>
-            <div style="font-size:0.8rem; margin-bottom:1rem; color:var(--text-secondary);">✨ Tasks reset daily. Complete tasks to earn 10 points each!</div>
+            <div class="card-title">📋 Daily Tasks <span style="font-size:0.7rem;">(Complete +10 | Delete -10)</span></div>
             <div id="todo-list-container"></div>
-            <div class="add-todo-form" style="display:flex; gap:10px; margin-top:1rem; flex-wrap:wrap;">
-                <input type="text" id="todoTitle" placeholder="Task for today..." style="flex:2;">
-                <button id="addTodoBtn">+ Add Task</button>
+            <div class="add-todo-form" style="display:flex; gap:12px; margin-top:1.5rem; flex-wrap:wrap;">
+                <input type="text" id="todoTitle" placeholder="What needs to be done?" style="flex:2;">
+                <button id="addTodoBtn">✨ Add Task</button>
             </div>
         </div>
     </div>
 
-    <!-- Pomodoro Panel with Live Timer that runs in background -->
+    <!-- Pomodoro Panel -->
     <div id="tab-pomo" class="panel">
         <div class="grid-2col">
             <div class="card">
-                <div class="card-title">🍅 Pomodoro Timer <span id="pomoLiveBadge" style="display:none;" class="live-badge">🔴 RUNNING</span></div>
+                <div class="card-title">🍅 Pomodoro Timer <span id="pomoLiveBadge" style="display:none;" class="live-badge">RUNNING</span></div>
                 <div class="timer-display" id="timerLabel">25:00</div>
                 <div class="timer-status" id="timerStatus">⚪ Ready</div>
-                <div class="timer-presets">
-                    <button class="preset-btn" data-minutes="25">📘 25min (1 pt)</button>
-                    <button class="preset-btn" data-minutes="50">📚 50min (2 pts)</button>
-                    <button class="preset-btn" data-minutes="75">🎯 75min (3 pts)</button>
+                <div class="timer-presets" style="display:flex; justify-content:center; gap:0.5rem; margin:1rem 0; flex-wrap:wrap;">
+                    <button class="preset-btn" data-minutes="25">25min (1 pt)</button>
+                    <button class="preset-btn" data-minutes="50">50min (2 pts)</button>
+                    <button class="preset-btn" data-minutes="75">75min (3 pts)</button>
                 </div>
-                <div class="custom-timer">
-                    <input type="number" id="customMinutes" placeholder="Minutes" min="1" max="180" value="25">
+                <div class="custom-timer" style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
+                    <input type="number" id="customMinutes" placeholder="Minutes" value="25">
                     <button id="setCustomTimer">Set Custom</button>
                 </div>
-                <div class="pomo-controls">
+                <div class="pomo-controls" style="display:flex; justify-content:center; gap:0.8rem; margin:1rem 0;">
                     <button id="pomoStart" class="success">▶ Start</button>
                     <button id="pomoPause" class="warning">⏸ Pause</button>
                     <button id="pomoReset" class="secondary">🔄 Reset</button>
                 </div>
-                <div style="background:var(--bg-primary); border-radius:24px; padding:1rem; text-align:center; margin-top:1rem;">
+                <div style="text-align:center; margin-top:1rem;">
                     <div>✅ Today: <strong id="sessionCountToday">0</strong> sessions</div>
                     <div>📅 Total: <strong id="totalSessionsYear">0</strong> sessions</div>
-                    <div>🎯 Total Points: <strong id="totalPointsFromPomo">0</strong></div>
-                    <div style="font-size:0.7rem;">⚡ Points = minutes ÷ 25 (rounded up) — Timer runs in background! Watch the tab title 👆</div>
+                    <div>🎯 Points: <strong id="totalPointsFromPomo">0</strong></div>
                 </div>
             </div>
             <div class="card">
                 <div class="card-title">🎵 Focus Music</div>
-                <div style="background:var(--bg-primary); border-radius:20px; padding:1rem;">
-                    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:0.5rem; margin-bottom:1rem;">
-                        <button class="music-btn" data-music="nature">🌿 Nature Rain</button>
-                        <button class="music-btn" data-music="calm-piano">🎹 Calm Piano</button>
-                        <button class="music-btn" data-music="meditation">🧘 Meditation</button>
-                        <button class="music-btn" data-music="ocean">🌊 Ocean Waves</button>
-                    </div>
-                    <div style="display:flex; gap:0.8rem; align-items:center;">
-                        <span>🔊 Volume:</span>
-                        <input type="range" id="volumeSlider" min="0" max="100" value="30" style="flex:1;">
-                        <span id="volumeValue">30%</span>
-                        <button id="stopMusic" class="secondary">⏹️ Stop</button>
-                    </div>
-                    <div id="musicStatus" style="font-size:0.75rem; margin-top:8px;">⚪ Silent</div>
+                <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:0.8rem;">
+                    <button class="music-btn" data-music="nature">🌿 Nature Rain</button>
+                    <button class="music-btn" data-music="calm-piano">🎹 Calm Piano</button>
+                    <button class="music-btn" data-music="meditation">🧘 Meditation</button>
+                    <button class="music-btn" data-music="ocean">🌊 Ocean Waves</button>
                 </div>
+                <div style="display:flex; gap:0.8rem; align-items:center; margin-top:1rem;">
+                    <span>🔊 Volume</span>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="30" style="flex:1;">
+                    <span id="volumeValue">30%</span>
+                    <button id="stopMusic" class="secondary">Stop</button>
+                </div>
+                <div id="musicStatus" style="font-size:0.75rem; margin-top:12px; text-align:center;">⚪ Silent</div>
             </div>
         </div>
     </div>
 
-    <!-- Word Vault -->
+    <!-- Word Vault Panel -->
     <div id="tab-words" class="panel">
         <div class="card">
-            <div class="card-title">📖 Word Vault</div>
-            <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:1rem;">
+            <div class="card-title">📖 Word Vault <span style="font-size:0.7rem;">(Add +5 | Delete -5)</span></div>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:1.5rem;">
                 <input type="text" id="wordTerm" placeholder="Word" style="flex:1.5;">
                 <input type="text" id="wordMeaning" placeholder="Meaning" style="flex:2;">
-                <input type="text" id="wordSynonyms" placeholder="Synonyms" style="flex:1;">
-                <input type="text" id="wordAntonyms" placeholder="Antonyms" style="flex:1;">
-                <button id="addWordBtn">➕ Add (5 pts)</button>
+                <input type="text" id="wordSynonyms" placeholder="Synonyms" style="flex:1.5;">
+                <input type="text" id="wordAntonyms" placeholder="Antonyms" style="flex:1.5;">
+                <button id="addWordBtn">✨ Add Word</button>
             </div>
             <div id="wordsListContainer" style="max-height:400px; overflow-y:auto;"></div>
         </div>
     </div>
 
-    <!-- Health Tracker -->
+    <!-- Health Tracker Panel -->
     <div id="tab-health" class="panel">
         <div class="card">
-            <div class="card-title">💪 Health Tracker</div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:1rem;">
-                <input type="date" id="healthDate" value="">
+            <div class="card-title">💪 Health Tracker <span style="font-size:0.7rem;">(Log +5 | Delete -5)</span></div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:1.5rem;">
+                <input type="date" id="healthDate">
                 <select id="foodStatus">
-                    <option value="yes">✅ Yes - Ate Healthy</option>
-                    <option value="no">❌ No - Didn't eat well</option>
+                    <option value="yes">✅ Healthy Meal</option>
+                    <option value="no">❌ Not Healthy</option>
                 </select>
                 <select id="workoutStatus">
-                    <option value="yes">✅ Yes - Workout Done</option>
-                    <option value="no">❌ No - No Workout</option>
+                    <option value="yes">✅ Workout Done</option>
+                    <option value="no">❌ No Workout</option>
                 </select>
-                <button id="addHealthEntryBtn" class="success">Log Entry (5 pts each ✓)</button>
+                <button id="addHealthEntryBtn" class="success">✨ Log Entry</button>
             </div>
-            <div id="healthEntriesList" style="margin-top:1rem; max-height:300px; overflow-y:auto;"></div>
+            <div id="healthEntriesList" style="max-height:300px; overflow-y:auto;"></div>
+        </div>
+    </div>
+
+    <!-- REWARD SHOP PANEL with Custom Rewards -->
+    <div id="tab-shop" class="panel">
+        <div class="card">
+            <div class="card-title">🎁 Premium Reward Shop</div>
+            <p style="margin-bottom: 1rem;">Redeem your hard-earned points for amazing rewards! Keep earning to unlock more treats! 🎉</p>
+            
+            <div class="reward-shop" id="rewardShopContainer"></div>
+            
+            <div class="redeemed-items" id="redeemedItemsContainer">
+                <strong>🎖️ Your Redeemed Rewards:</strong>
+                <div id="redeemedList">No rewards redeemed yet. Keep earning points!</div>
+            </div>
         </div>
     </div>
 
     <!-- Insights Panel -->
     <div id="tab-data" class="panel">
         <div class="card">
-            <div class="card-title">📊 Date-wise Insights</div>
-            <div class="data-selector">
-                <select id="insightDateSelect">
+            <div class="card-title">📊 Insights & Analytics</div>
+            <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1.5rem;">
+                <select id="insightDateSelect" style="flex:1;">
                     <option value="all">📅 All Time</option>
                 </select>
-                <select id="dataTypeSelect">
+                <select id="dataTypeSelect" style="flex:1;">
                     <option value="tasks">✅ Completed Tasks</option>
                     <option value="pomodoro">🍅 Pomodoro Sessions</option>
                     <option value="words">📖 Words Learned</option>
                     <option value="health">💪 Health Logs</option>
+                    <option value="rewards">🎁 Redeemed Rewards</option>
                     <option value="custom">📌 Custom Sections</option>
                 </select>
-                <button id="refreshDataView" class="secondary">🔄 Refresh</button>
+                <button id="refreshDataView">🔄 Refresh</button>
             </div>
             <div id="dataViewer" class="data-viewer">
-                <div class="data-entry">Select a category to view your progress</div>
+                <div class="data-entry">✨ Select a category to view your progress</div>
             </div>
         </div>
     </div>
 
     <div id="customSectionsContainer"></div>
-    <footer style="text-align:center; margin-top:2rem; font-size:0.7rem;">🏆 Timer runs in background using timestamp technology! Switch tabs and watch the countdown in your browser tab title 👆</footer>
+    <footer>🌟 Earn points: Tasks(10) | Pomodoro(minutes÷25) | Words(5) | Health(5) | Redeem for amazing rewards! 🍫🥤🏏</footer>
 </div>
 
 <script>
+    // Generate floating particles
+    for(let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.width = Math.random() * 100 + 50 + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 20 + 's';
+        particle.style.animationDuration = Math.random() * 20 + 15 + 's';
+        particle.style.opacity = Math.random() * 0.3;
+        document.getElementById('particles').appendChild(particle);
+    }
+
     // ========== THEME ==========
     function initTheme() {
         const saved = localStorage.getItem('dashboard_theme');
@@ -343,27 +672,200 @@
     const STORAGE = {
         TODOS_HISTORY: 'dashboard_todos_history',
         POMO_SESSIONS: 'dashboard_pomo_sessions',
-        WORDS: 'dashboard_word_vault',
+        WORDS: 'dashboard_word_vault_v2',
         HEALTH: 'dashboard_health_logs',
         POINTS: 'dashboard_points_total',
+        REWARDS: 'dashboard_redeemed_rewards',
         CUSTOM_SECTIONS: 'dashboard_custom_sections'
     };
     function getTodayStr() { return new Date().toISOString().slice(0,10); }
     function escapeHtml(s) { if(!s) return ''; return s.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
     
+    // ========== REWARD SHOP SYSTEM with Custom Rewards ==========
+    const REWARDS = [
+        { id: 1, name: "🍫 Chocolate Bar", icon: "🍫", cost: 500, description: "Rich, creamy chocolate reward!", category: "Snacks" },
+        { id: 2, name: "🥟 Momo (10 pcs)", icon: "🥟", cost: 2000, description: "Delicious steamed dumplings!", category: "Food" },
+        { id: 3, name: "🍌 Banana Shake", icon: "🥤", cost: 1500, description: "Refreshing & healthy banana shake!", category: "Beverages" },
+        { id: 4, name: "🍦 Ice Cream", icon: "🍦", cost: 1000, description: "Cool and creamy ice cream treat!", category: "Dessert" },
+        { id: 5, name: "🎮 Game Time (2hrs)", icon: "🎮", cost: 2500, description: "2 hours of uninterrupted gaming!", category: "Entertainment" },
+        { id: 6, name: "📚 Book Credit", icon: "📚", cost: 3000, description: "New book of your choice!", category: "Learning" },
+        { id: 7, name: "🏏 Cricket/Movie Night", icon: "🏏", cost: 4000, description: "Cricket match or movie night with friends!", category: "Experiences" }
+    ];
+    
+    let redeemedRewards = [];
+    
+    function loadRedeemedRewards() {
+        const saved = localStorage.getItem(STORAGE.REWARDS);
+        if(saved) redeemedRewards = JSON.parse(saved);
+        else redeemedRewards = [];
+        renderRewardShop();
+        renderRedeemedItems();
+    }
+    
+    function saveRedeemedRewards() {
+        localStorage.setItem(STORAGE.REWARDS, JSON.stringify(redeemedRewards));
+        renderRedeemedItems();
+        updateInsightDates();
+    }
+    
+    function redeemReward(reward) {
+        if (totalPoints >= reward.cost) {
+            totalPoints -= reward.cost;
+            savePoints();
+            
+            const redeemedItem = {
+                id: reward.id,
+                name: reward.name,
+                icon: reward.icon,
+                cost: reward.cost,
+                date: getTodayStr(),
+                timestamp: Date.now()
+            };
+            redeemedRewards.push(redeemedItem);
+            saveRedeemedRewards();
+            
+            // Celebration effect based on reward type
+            let celebrationMessage = `🎁 Redeemed: ${reward.name} for ${reward.cost} points! `;
+            if (reward.name === "🍫 Chocolate Bar") celebrationMessage += "Enjoy your sweet treat! 🍫";
+            else if (reward.name === "🥟 Momo (10 pcs)") celebrationMessage += "Momo time! 🥟🔥";
+            else if (reward.name === "🍌 Banana Shake") celebrationMessage += "Shake it up! 🥤✨";
+            else if (reward.name === "🍦 Ice Cream") celebrationMessage += "Ice cream happiness! 🍦😋";
+            else if (reward.name === "🎮 Game Time (2hrs)") celebrationMessage += "Game on! 🎮🕹️";
+            else if (reward.name === "📚 Book Credit") celebrationMessage += "Happy reading! 📖💫";
+            else if (reward.name === "🏏 Cricket/Movie Night") celebrationMessage += "Enjoy your fun night! 🎬🏏";
+            
+            showRewardToast(celebrationMessage);
+            
+            // Celebration animation
+            const celebration = document.createElement('div');
+            celebration.style.position = 'fixed';
+            celebration.style.top = '50%';
+            celebration.style.left = '50%';
+            celebration.style.transform = 'translate(-50%, -50%)';
+            celebration.style.fontSize = '6rem';
+            celebration.style.zIndex = '2000';
+            celebration.style.pointerEvents = 'none';
+            celebration.style.animation = 'rewardPop 0.5s ease';
+            celebration.innerHTML = reward.icon;
+            document.body.appendChild(celebration);
+            setTimeout(() => celebration.remove(), 1000);
+            
+        } else {
+            const needed = reward.cost - totalPoints;
+            showRewardToast(`❌ Need ${needed} more points to get ${reward.name}! Keep going! 💪`, true);
+        }
+    }
+    
+    function renderRewardShop() {
+        const container = document.getElementById('rewardShopContainer');
+        if(!container) return;
+        
+        // Group rewards by category
+        const snacks = REWARDS.filter(r => r.category === "Snacks" || r.category === "Food" || r.category === "Dessert" || r.category === "Beverages");
+        const experiences = REWARDS.filter(r => r.category === "Entertainment" || r.category === "Learning" || r.category === "Experiences");
+        
+        container.innerHTML = `
+            <div style="grid-column:1/-1; margin-bottom:0.5rem;"><h3 style="color:var(--reward-gold);">🍕 Food & Treats</h3></div>
+            ${snacks.map(reward => `
+                <div class="reward-item">
+                    <div class="reward-icon">${reward.icon}</div>
+                    <div class="reward-name">${reward.name}</div>
+                    <div class="reward-cost">💰 <span>${reward.cost.toLocaleString()}</span> points</div>
+                    <div style="font-size:0.75rem; margin-bottom:0.8rem;">${reward.description}</div>
+                    <button class="redeem-btn" data-id="${reward.id}" data-name="${reward.name}" data-cost="${reward.cost}" ${totalPoints < reward.cost ? 'disabled' : ''}>
+                        🎁 Redeem
+                    </button>
+                </div>
+            `).join('')}
+            <div style="grid-column:1/-1; margin:1rem 0 0.5rem;"><h3 style="color:var(--reward-gold);">🎯 Experiences & Entertainment</h3></div>
+            ${experiences.map(reward => `
+                <div class="reward-item">
+                    <div class="reward-icon">${reward.icon}</div>
+                    <div class="reward-name">${reward.name}</div>
+                    <div class="reward-cost">💰 <span>${reward.cost.toLocaleString()}</span> points</div>
+                    <div style="font-size:0.75rem; margin-bottom:0.8rem;">${reward.description}</div>
+                    <button class="redeem-btn" data-id="${reward.id}" data-name="${reward.name}" data-cost="${reward.cost}" ${totalPoints < reward.cost ? 'disabled' : ''}>
+                        🎁 Redeem
+                    </button>
+                </div>
+            `).join('')}
+        `;
+        
+        document.querySelectorAll('.redeem-btn').forEach(btn => {
+            btn.onclick = () => {
+                const reward = REWARDS.find(r => r.id == btn.dataset.id);
+                if(reward) redeemReward(reward);
+            };
+        });
+    }
+    
+    function renderRedeemedItems() {
+        const container = document.getElementById('redeemedList');
+        if(!container) return;
+        if(redeemedRewards.length === 0) {
+            container.innerHTML = 'No rewards redeemed yet. Keep earning points! 🎯';
+            return;
+        }
+        const totalSpent = redeemedRewards.reduce((sum, r) => sum + r.cost, 0);
+        container.innerHTML = `<div style="margin-bottom:0.8rem; padding:0.5rem; background:rgba(255,255,255,0.1); border-radius:20px;">💎 Total Points Spent: ${totalSpent.toLocaleString()}</div>` + 
+            redeemedRewards.slice().reverse().map(r => `
+            <div style="display:flex; align-items:center; gap:12px; padding:10px; background:rgba(255,255,255,0.1); border-radius:20px; margin-bottom:8px;">
+                <span style="font-size:2rem;">${r.icon}</span>
+                <div style="flex:1;">
+                    <strong>${r.name}</strong><br>
+                    <small>Redeemed on ${r.date} • ${r.cost.toLocaleString()} points</small>
+                </div>
+            </div>
+        `).join('');
+    }
+    
     // ========== POINTS SYSTEM ==========
     let totalPoints = 0;
     function loadPoints() { const saved = localStorage.getItem(STORAGE.POINTS); totalPoints = saved ? parseInt(saved) : 0; updatePointsDisplay(); }
-    function savePoints() { localStorage.setItem(STORAGE.POINTS, totalPoints); updatePointsDisplay(); }
-    function addPoints(amount, reason) { totalPoints += amount; savePoints(); showRewardToast(`+${amount} pts! ${reason}`); checkAchievements(); }
-    function showRewardToast(message) { const toast = document.createElement('div'); toast.className = 'reward-toast'; toast.innerHTML = `🎉 ${message}`; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
-    function updatePointsDisplay() { document.getElementById('totalPoints').innerText = totalPoints; const badge = document.getElementById('achievementBadge'); if(totalPoints >= 500) badge.innerHTML = '👑 Legendary!'; else if(totalPoints >= 300) badge.innerHTML = '🌟 Elite'; else if(totalPoints >= 150) badge.innerHTML = '⭐ Star Learner'; else if(totalPoints >= 50) badge.innerHTML = '✨ Dedicated'; else badge.innerHTML = '🌱 Keep going!'; }
-    function checkAchievements() { let achievements = []; if(totalPoints >= 100) achievements.push('💪 100 Points'); if(totalPoints >= 250) achievements.push('⭐ 250 Points'); if(totalPoints >= 500) achievements.push('👑 500 Points'); if(achievements.length) document.getElementById('achievementBadge').innerHTML = achievements.join(' · '); }
+    function savePoints() { localStorage.setItem(STORAGE.POINTS, totalPoints); updatePointsDisplay(); renderRewardShop(); updateProgressBar(); }
+    function addPoints(amount, reason) { totalPoints += amount; savePoints(); showRewardToast(`+${amount} pts! ${reason}`); checkMilestones(); updateProgressBar(); }
+    function deductPoints(amount, reason) { totalPoints = Math.max(0, totalPoints - amount); savePoints(); showRewardToast(`-${amount} pts! ${reason}`, true); checkMilestones(); updateProgressBar(); }
+    function showRewardToast(message, isDeduct = false) { 
+        const toast = document.createElement('div'); 
+        toast.className = 'reward-toast'; 
+        toast.style.background = isDeduct ? 'linear-gradient(135deg, var(--danger), var(--warning))' : 'linear-gradient(135deg, var(--reward-gold), var(--accent-primary))';
+        toast.innerHTML = isDeduct ? `⚠️ ${message}` : `🎉 ${message}`; 
+        document.body.appendChild(toast); 
+        setTimeout(() => toast.remove(), 3000); 
+    }
+    function updatePointsDisplay() { 
+        document.getElementById('totalPoints').innerText = totalPoints.toLocaleString(); 
+        const badge = document.getElementById('achievementBadge');
+        if(totalPoints >= 4000) badge.innerHTML = '👑 LEGEND! 🏆 All Rewards Unlocked!';
+        else if(totalPoints >= 3000) badge.innerHTML = '🌟 Book Lover! 📚';
+        else if(totalPoints >= 2500) badge.innerHTML = '🎮 Gamer! 🎮';
+        else if(totalPoints >= 2000) badge.innerHTML = '🥟 Momo Master!';
+        else if(totalPoints >= 1500) badge.innerHTML = '🥤 Shake Enthusiast!';
+        else if(totalPoints >= 1000) badge.innerHTML = '🍦 Ice Cream Hunter!';
+        else if(totalPoints >= 500) badge.innerHTML = '🍫 Chocolate Seeker!';
+        else if(totalPoints >= 250) badge.innerHTML = '⭐ Rising Star';
+        else if(totalPoints >= 100) badge.innerHTML = '✨ Dedicated Learner';
+        else badge.innerHTML = '🌱 Keep going!';
+        updateProgressBar();
+    }
+    function updateProgressBar() {
+        const nextMilestone = [500, 1000, 1500, 2000, 2500, 3000, 4000].find(m => m > totalPoints) || 4000;
+        const progressPercent = Math.min(100, (totalPoints / nextMilestone) * 100);
+        const progressBar = document.getElementById('pointsProgressBar');
+        if(progressBar) progressBar.style.width = progressPercent + '%';
+    }
+    function checkMilestones() {
+        if(totalPoints >= 4000) showRewardToast(`🎉 AMAZING! You've unlocked ALL rewards! 🏆✨`);
+        else if(totalPoints >= 3000) showRewardToast(`🎉 3000 points! Book Credit unlocked! 📚`);
+        else if(totalPoints >= 2500) showRewardToast(`🎉 2500 points! Game Time unlocked! 🎮`);
+        else if(totalPoints >= 2000) showRewardToast(`🎉 2000 points! Momo unlocked! 🥟🔥`);
+        else if(totalPoints >= 1500) showRewardToast(`🎉 1500 points! Banana Shake unlocked! 🥤`);
+        else if(totalPoints >= 1000) showRewardToast(`🎉 1000 points! Ice Cream unlocked! 🍦`);
+        else if(totalPoints >= 500) showRewardToast(`🎉 500 points! Chocolate Bar unlocked! 🍫`);
+    }
 
     // ========== DAILY TASKS ==========
-    let currentTasks = [];
-    let tasksHistory = [];
-    
+    let currentTasks = [], tasksHistory = [];
     function loadTasks() {
         const today = getTodayStr();
         const savedHistory = localStorage.getItem(STORAGE.TODOS_HISTORY);
@@ -385,218 +887,127 @@
     function renderTasks() {
         const container = document.getElementById('todo-list-container');
         if(!container) return;
-        if(currentTasks.length === 0) { container.innerHTML = '<div style="padding:1rem; text-align:center;">✨ No tasks for today. Add some!</div>'; return; }
+        if(currentTasks.length === 0) { container.innerHTML = '<div style="padding:2rem; text-align:center;">✨ No tasks for today. Add some!</div>'; return; }
         container.innerHTML = currentTasks.map(task => `
             <div class="todo-item" style="opacity: ${task.completed ? 0.6 : 1};">
-                <div class="todo-content">
+                <div style="flex:1">
                     <div class="todo-text" style="text-decoration: ${task.completed ? 'line-through' : 'none'}">${escapeHtml(task.title)}</div>
                 </div>
-                <div class="todo-actions">
+                <div style="display:flex; gap:8px;">
                     ${!task.completed ? `<button data-id="${task.id}" class="complete-task" style="background:var(--success);">✓ Complete (+10)</button>` : `<span style="color:var(--success);">✓ Done</span>`}
-                    <button data-id="${task.id}" class="delete-task" style="background:var(--danger);">🗑️</button>
+                    <button data-id="${task.id}" class="delete-task" style="background:var(--danger);">🗑️ Delete (-10)</button>
                 </div>
             </div>
         `).join('');
         document.querySelectorAll('.complete-task').forEach(btn => { btn.onclick = () => { const task = currentTasks.find(t => t.id == btn.dataset.id); if(task && !task.completed) { task.completed = true; addPoints(10, `Completed: "${task.title.substring(0,30)}"`); saveTasksHistory(); renderTasks(); updateInsightDates(); } }; });
-        document.querySelectorAll('.delete-task').forEach(btn => { btn.onclick = () => { currentTasks = currentTasks.filter(t => t.id != btn.dataset.id); saveTasksHistory(); renderTasks(); updateInsightDates(); }; });
+        document.querySelectorAll('.delete-task').forEach(btn => { btn.onclick = () => { const task = currentTasks.find(t => t.id == btn.dataset.id); if(task) { if(!task.completed) deductPoints(10, `Deleted task: "${task.title.substring(0,30)}"`); currentTasks = currentTasks.filter(t => t.id != btn.dataset.id); saveTasksHistory(); renderTasks(); updateInsightDates(); } }; });
     }
     function addTask(title) { if(title.trim()) { currentTasks.push({ id: Date.now(), title: title.trim(), completed: false }); saveTasksHistory(); renderTasks(); updateInsightDates(); } }
 
-    // ========== POMODORO with REAL BACKGROUND TIMER ==========
+    // ========== POMODORO TIMER ==========
     let pomodoroSessions = [];
-    let timerEndTime = null;  // Unix timestamp when timer will end
-    let isTimerRunning = false;
-    let currentMinutes = 25;
-    let timerInterval = null;
-    
+    let timerEndTime = null, isTimerRunning = false, currentMinutes = 25, timerInterval = null;
     function calculatePoints(minutes) { return Math.ceil(minutes / 25); }
-    
     function updateTimerDisplay() {
         if (isTimerRunning && timerEndTime) {
             const now = Date.now();
             const remainingSeconds = Math.max(0, Math.floor((timerEndTime - now) / 1000));
-            
-            if (remainingSeconds <= 0) {
-                completePomodoro();
-                return;
-            }
-            
-            const mins = Math.floor(remainingSeconds / 60);
-            const secs = remainingSeconds % 60;
-            const display = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
-            document.getElementById('timerLabel').innerText = display;
-            
-            // Update tab title with timer - THIS WORKS IN BACKGROUND TABS!
-            document.title = `🍅 ${display} - Timer Running | Complete Life Dashboard`;
-            
-            return remainingSeconds;
-        } else {
-            const remainingSeconds = timerEndTime ? Math.max(0, Math.floor((timerEndTime - Date.now()) / 1000)) : currentMinutes * 60;
-            const mins = Math.floor(remainingSeconds / 60);
-            const secs = remainingSeconds % 60;
+            if (remainingSeconds <= 0) { completePomodoro(); return; }
+            const mins = Math.floor(remainingSeconds / 60), secs = remainingSeconds % 60;
             document.getElementById('timerLabel').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
-            if (!isTimerRunning && document.title.includes('Timer Running')) {
-                document.title = `📊 Complete Life Dashboard`;
-            }
-            return remainingSeconds;
+            document.title = `🍅 ${mins}:${secs.toString().padStart(2,'0')}`;
         }
     }
-    
     function startTimer() {
         if (isTimerRunning) return;
-        
-        // If there's a remaining time, set end time based on current remaining
-        const currentDisplay = document.getElementById('timerLabel').innerText;
-        const [mins, secs] = currentDisplay.split(':').map(Number);
+        const [mins, secs] = document.getElementById('timerLabel').innerText.split(':').map(Number);
         const currentRemaining = (mins * 60) + secs;
-        
-        if (currentRemaining <= 0) {
-            resetTimer();
-            return;
-        }
-        
+        if (currentRemaining <= 0) { resetTimer(); return; }
         timerEndTime = Date.now() + (currentRemaining * 1000);
         isTimerRunning = true;
-        
-        // Update UI
-        document.getElementById('timerStatus').innerHTML = '⏳ Timer Running (works in background!)';
+        document.getElementById('timerStatus').innerHTML = '⏳ Timer Running';
         document.getElementById('timerStatus').className = 'timer-status active';
         document.getElementById('pomoLiveBadge').style.display = 'inline-block';
-        document.getElementById('liveTimerBadge').style.display = 'inline-block';
-        
-        // Clear any existing interval
         if (timerInterval) clearInterval(timerInterval);
-        
-        // Start interval that updates every second - THIS RUNS IN BACKGROUND!
-        timerInterval = setInterval(() => {
-            updateTimerDisplay();
-        }, 1000);
-        
+        timerInterval = setInterval(() => updateTimerDisplay(), 1000);
         updateTimerDisplay();
     }
-    
     function pauseTimer() {
         if (!isTimerRunning) return;
-        
-        // Calculate remaining time
-        const now = Date.now();
-        const remainingSeconds = Math.max(0, Math.floor((timerEndTime - now) / 1000));
-        
-        // Stop the timer
+        const remainingSeconds = Math.max(0, Math.floor((timerEndTime - Date.now()) / 1000));
         if (timerInterval) clearInterval(timerInterval);
         timerInterval = null;
         isTimerRunning = false;
         timerEndTime = null;
-        
-        // Update display with remaining time
-        const mins = Math.floor(remainingSeconds / 60);
-        const secs = remainingSeconds % 60;
+        const mins = Math.floor(remainingSeconds / 60), secs = remainingSeconds % 60;
         document.getElementById('timerLabel').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
         document.getElementById('timerStatus').innerHTML = '⏸ Paused';
         document.getElementById('timerStatus').className = 'timer-status paused';
         document.getElementById('pomoLiveBadge').style.display = 'none';
-        document.getElementById('liveTimerBadge').style.display = 'none';
-        document.title = `⏸ Paused - Complete Life Dashboard`;
+        document.title = `📊 Life Dashboard`;
     }
-    
     function resetTimer() {
-        // Stop timer
         if (timerInterval) clearInterval(timerInterval);
         timerInterval = null;
         isTimerRunning = false;
         timerEndTime = null;
-        
-        // Reset to current minutes
-        const mins = Math.floor(currentMinutes);
-        const secs = 0;
-        document.getElementById('timerLabel').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+        document.getElementById('timerLabel').innerText = `${currentMinutes.toString().padStart(2,'0')}:00`;
         document.getElementById('timerStatus').innerHTML = '⚪ Ready';
         document.getElementById('timerStatus').className = 'timer-status';
         document.getElementById('pomoLiveBadge').style.display = 'none';
-        document.getElementById('liveTimerBadge').style.display = 'none';
-        document.title = `📊 Complete Life Dashboard`;
+        document.title = `📊 Life Dashboard`;
     }
-    
     function completePomodoro() {
-        // Stop timer
         if (timerInterval) clearInterval(timerInterval);
         timerInterval = null;
-        
-        const minutesCompleted = currentMinutes;
-        const pointsEarned = calculatePoints(minutesCompleted);
-        
-        const session = { 
-            date: getTodayStr(), 
-            minutes: minutesCompleted, 
-            points: pointsEarned,
-            timestamp: Date.now()
-        };
+        const pointsEarned = calculatePoints(currentMinutes);
+        const session = { date: getTodayStr(), minutes: currentMinutes, points: pointsEarned, timestamp: Date.now() };
         pomodoroSessions.push(session);
         localStorage.setItem(STORAGE.POMO_SESSIONS, JSON.stringify(pomodoroSessions));
         updatePomoStats();
-        addPoints(pointsEarned, `${minutesCompleted}min Pomodoro (${pointsEarned} pts)`);
-        
-        // Reset timer state
+        addPoints(pointsEarned, `${currentMinutes}min Pomodoro`);
         isTimerRunning = false;
         timerEndTime = null;
-        
-        const mins = Math.floor(currentMinutes);
-        document.getElementById('timerLabel').innerText = `${mins.toString().padStart(2,'0')}:00`;
-        document.getElementById('timerStatus').innerHTML = '✅ Complete! +' + pointsEarned + ' points';
+        document.getElementById('timerLabel').innerText = `${currentMinutes.toString().padStart(2,'0')}:00`;
+        document.getElementById('timerStatus').innerHTML = '✅ Complete! +' + pointsEarned + ' pts';
         document.getElementById('timerStatus').className = 'timer-status';
         document.getElementById('pomoLiveBadge').style.display = 'none';
-        document.getElementById('liveTimerBadge').style.display = 'none';
-        
-        // Visual feedback
-        showRewardToast(`🎉 Pomodoro complete! +${pointsEarned} points`);
         updateInsightDates();
         document.title = `✅ Complete! +${pointsEarned} pts`;
-        setTimeout(() => { if(!isTimerRunning) document.title = `📊 Complete Life Dashboard`; }, 3000);
-        
-        // Reset after completion
-        setTimeout(() => {
-            if (!isTimerRunning) {
-                document.getElementById('timerStatus').innerHTML = '⚪ Ready';
-            }
-        }, 2000);
+        setTimeout(() => { if(!isTimerRunning) document.title = `📊 Life Dashboard`; }, 3000);
+        setTimeout(() => { if(!isTimerRunning) document.getElementById('timerStatus').innerHTML = '⚪ Ready'; }, 2000);
     }
-    
-    function setTimer(minutes) {
-        if (isTimerRunning) {
-            pauseTimer();
-        }
-        currentMinutes = minutes;
-        const mins = Math.floor(minutes);
-        document.getElementById('timerLabel').innerText = `${mins.toString().padStart(2,'0')}:00`;
-        document.getElementById('timerStatus').innerHTML = '⚪ Ready';
-        document.getElementById('timerStatus').className = 'timer-status';
-        document.getElementById('pomoLiveBadge').style.display = 'none';
-        document.getElementById('liveTimerBadge').style.display = 'none';
-    }
-    
-    function loadPomodoro() { 
-        const saved = localStorage.getItem(STORAGE.POMO_SESSIONS); 
-        pomodoroSessions = saved ? JSON.parse(saved) : []; 
-        updatePomoStats(); 
-        setTimer(25);
-    }
-    
+    function setTimer(minutes) { if (isTimerRunning) pauseTimer(); currentMinutes = minutes; document.getElementById('timerLabel').innerText = `${minutes.toString().padStart(2,'0')}:00`; }
+    function loadPomodoro() { const saved = localStorage.getItem(STORAGE.POMO_SESSIONS); pomodoroSessions = saved ? JSON.parse(saved) : []; updatePomoStats(); setTimer(25); }
     function updatePomoStats() {
         const today = getTodayStr();
-        const todaySessions = pomodoroSessions.filter(s => s.date === today);
-        const totalSessions = pomodoroSessions.length;
-        const totalPoints = pomodoroSessions.reduce((sum, s) => sum + s.points, 0);
-        document.getElementById('sessionCountToday').innerText = todaySessions.length;
-        document.getElementById('totalSessionsYear').innerText = totalSessions;
-        document.getElementById('totalPointsFromPomo').innerText = totalPoints;
+        document.getElementById('sessionCountToday').innerText = pomodoroSessions.filter(s => s.date === today).length;
+        document.getElementById('totalSessionsYear').innerText = pomodoroSessions.length;
+        document.getElementById('totalPointsFromPomo').innerText = pomodoroSessions.reduce((sum, s) => sum + s.points, 0);
     }
 
     // ========== WORD VAULT ==========
     let words = [];
     function loadWords() { const saved = localStorage.getItem(STORAGE.WORDS); words = saved ? JSON.parse(saved) : []; renderWords(); }
     function saveWords() { localStorage.setItem(STORAGE.WORDS, JSON.stringify(words)); renderWords(); updateInsightDates(); }
-    function addWord(term, meaning, synonyms, antonyms) { if(term.trim() && meaning.trim()) { words.push({ id: Date.now(), term: term.trim(), meaning: meaning.trim(), synonyms: synonyms||"", antonyms: antonyms||"", date: getTodayStr() }); saveWords(); addPoints(5, `Added word: "${term}"`); } }
-    function renderWords() { const container = document.getElementById("wordsListContainer"); if(!container) return; if(!words.length) { container.innerHTML = "<div style='padding:1rem; text-align:center;'>📚 No words yet.</div>"; return; } container.innerHTML = words.slice().reverse().map(w => `<div style="background:var(--bg-primary); border-radius:16px; padding:12px; margin-bottom:8px;"><strong>📖 ${escapeHtml(w.term)}</strong><br>${escapeHtml(w.meaning)}<br><span style="font-size:0.75rem;">🔗 ${w.synonyms || '-'} | 🚫 ${w.antonyms || '-'}</span><button data-id="${w.id}" class="del-word" style="margin-top:6px; background:#ef4444; padding:4px 12px;">Delete</button></div>`).join(''); document.querySelectorAll('.del-word').forEach(btn => { btn.onclick = () => { words = words.filter(w=>w.id!=parseInt(btn.dataset.id)); saveWords(); }; }); }
+    function addWord(term, meaning, synonyms, antonyms) { if(term.trim() && meaning.trim()) { words.push({ id: Date.now(), term: term.trim(), meaning: meaning.trim(), synonyms: synonyms.trim() || "", antonyms: antonyms.trim() || "", date: getTodayStr() }); saveWords(); addPoints(5, `Added word: "${term}"`); } }
+    function deleteWord(id, term) { words = words.filter(w => w.id !== id); saveWords(); deductPoints(5, `Deleted word: "${term}"`); }
+    function renderWords() {
+        const container = document.getElementById("wordsListContainer");
+        if(!container) return;
+        if(words.length === 0) { container.innerHTML = "<div style='padding:2rem; text-align:center;'>📚 No words yet. Add your first word!</div>"; return; }
+        container.innerHTML = words.slice().reverse().map(w => `
+            <div class="word-item">
+                <div style="flex:1">
+                    <div class="todo-text">📖 ${escapeHtml(w.term)}</div>
+                    <div class="word-details" style="font-size:0.8rem; color:var(--text-secondary);">📝 ${escapeHtml(w.meaning)}</div>
+                    <div class="word-details" style="font-size:0.75rem;">🔗 ${escapeHtml(w.synonyms || '-')} | 🚫 ${escapeHtml(w.antonyms || '-')}</div>
+                </div>
+                <button data-id="${w.id}" data-term="${escapeHtml(w.term)}" class="delete-word" style="background:var(--danger);">🗑️ Delete (-5)</button>
+            </div>
+        `).join('');
+        document.querySelectorAll('.delete-word').forEach(btn => { btn.onclick = () => { const id = parseInt(btn.dataset.id); const term = btn.dataset.term; deleteWord(id, term); }; });
+    }
 
     // ========== HEALTH TRACKER ==========
     let healthLogs = [];
@@ -619,8 +1030,24 @@
         saveHealth();
         if(pointsEarned > 0) addPoints(pointsEarned, `Healthy habits logged!`);
     }
-    function renderHealth() { const container = document.getElementById("healthEntriesList"); if(!container) return; if(!healthLogs.length) { container.innerHTML = "<div style='padding:1rem; text-align:center;'>No health logs yet</div>"; return; } container.innerHTML = healthLogs.map(h => `<div style="background:var(--bg-primary); border-radius:16px; padding:10px; margin-bottom:6px;"><strong>📅 ${h.date}</strong><br>🥗 Proper Food: ${h.food ? '✅ Yes' : '❌ No'} | 🏋️ Workout: ${h.workout ? '✅ Done' : '❌ Not done'}<button data-date="${h.date}" class="del-health" style="margin-left:10px; background:#ef4444; padding:2px 12px;">Delete</button></div>`).join('');
-        document.querySelectorAll('.del-health').forEach(btn => { btn.onclick = () => { healthLogs = healthLogs.filter(h=>h.date!==btn.dataset.date); saveHealth(); }; }); }
+    function deleteHealthEntry(date) {
+        const entry = healthLogs.find(h => h.date === date);
+        if(entry) {
+            let pointsDeducted = 0;
+            if(entry.food) pointsDeducted += 5;
+            if(entry.workout) pointsDeducted += 5;
+            healthLogs = healthLogs.filter(h => h.date !== date);
+            saveHealth();
+            if(pointsDeducted > 0) deductPoints(pointsDeducted, `Deleted health log for ${date}`);
+        }
+    }
+    function renderHealth() { 
+        const container = document.getElementById("healthEntriesList"); 
+        if(!container) return; 
+        if(!healthLogs.length) { container.innerHTML = "<div style='padding:1rem; text-align:center;'>No health logs yet</div>"; return; } 
+        container.innerHTML = healthLogs.map(h => `<div class="todo-item" style="justify-content:space-between; flex-wrap:wrap;"><div><strong>📅 ${h.date}</strong><br>🥗 ${h.food ? '✅ Yes' : '❌ No'} | 🏋️ ${h.workout ? '✅ Done' : '❌ Not done'}</div><button data-date="${h.date}" class="delete-health" style="background:var(--danger);">Delete (-${(h.food?5:0)+(h.workout?5:0)})</button></div>`).join('');
+        document.querySelectorAll('.delete-health').forEach(btn => { btn.onclick = () => { deleteHealthEntry(btn.dataset.date); }; }); 
+    }
 
     // ========== INSIGHTS ==========
     function updateInsightDates() {
@@ -629,19 +1056,15 @@
         pomodoroSessions.forEach(s => dates.add(s.date));
         words.forEach(w => dates.add(w.date));
         healthLogs.forEach(h => dates.add(h.date));
-        customSections.forEach(section => {
-            section.entries.forEach(e => dates.add(e.date));
-        });
+        redeemedRewards.forEach(r => dates.add(r.date));
         const sortedDates = Array.from(dates).sort().reverse();
         const select = document.getElementById('insightDateSelect');
-        select.innerHTML = '<option value="all">📅 All Time</option>' + sortedDates.map(d => `<option value="${d}">📅 ${d}</option>`).join('');
+        if(select) select.innerHTML = '<option value="all">📅 All Time</option>' + sortedDates.map(d => `<option value="${d}">📅 ${d}</option>`).join('');
     }
-    
     function renderInsights() {
         const selectedDate = document.getElementById('insightDateSelect').value;
         const type = document.getElementById('dataTypeSelect').value;
         const container = document.getElementById('dataViewer');
-        
         if(type === 'tasks') {
             let filtered = tasksHistory;
             if(selectedDate !== 'all') filtered = tasksHistory.filter(h => h.date === selectedDate);
@@ -653,25 +1076,28 @@
             if(selectedDate !== 'all') filtered = pomodoroSessions.filter(s => s.date === selectedDate);
             const totalMinutes = filtered.reduce((sum, s) => sum + s.minutes, 0);
             const totalPointsEarned = filtered.reduce((sum, s) => sum + s.points, 0);
-            container.innerHTML = `<div class="stats-badge">🍅 Total: ${filtered.length} sessions | ${totalMinutes} min | ${totalPointsEarned} points</div>` + filtered.map(s => `<div class="data-entry"><strong>📅 ${s.date}</strong><br>⏱️ ${s.minutes} minutes | 🎯 ${s.points} points earned</div>`).join('');
+            container.innerHTML = `<div class="stats-badge">🍅 Total: ${filtered.length} sessions | ${totalMinutes} min | ${totalPointsEarned} points</div>` + filtered.map(s => `<div class="data-entry"><strong>📅 ${s.date}</strong><br>⏱️ ${s.minutes} minutes | 🎯 ${s.points} points</div>`).join('');
         }
         else if(type === 'words') {
             let filtered = words;
             if(selectedDate !== 'all') filtered = words.filter(w => w.date === selectedDate);
-            container.innerHTML = `<div class="stats-badge">📖 Total Words: ${filtered.length} (${filtered.length*5} points)</div>` + filtered.map(w => `<div class="data-entry"><strong>📖 ${escapeHtml(w.term)}</strong><br>${escapeHtml(w.meaning)}<br><span style="font-size:0.7rem;">Added: ${w.date}</span></div>`).join('');
+            container.innerHTML = `<div class="stats-badge">📖 Total Words: ${filtered.length} (${filtered.length*5} points)</div>` + filtered.map(w => `<div class="data-entry"><strong>📖 ${escapeHtml(w.term)}</strong><br>${escapeHtml(w.meaning)}</div>`).join('');
         }
         else if(type === 'health') {
             let filtered = healthLogs;
             if(selectedDate !== 'all') filtered = healthLogs.filter(h => h.date === selectedDate);
             const foodCount = filtered.filter(h => h.food).length;
             const workoutCount = filtered.filter(h => h.workout).length;
-            container.innerHTML = `<div class="stats-badge">💪 ${filtered.length} days | 🥗 ${foodCount} healthy meals | 🏋️ ${workoutCount} workouts</div>` + filtered.map(h => `<div class="data-entry"><strong>📅 ${h.date}</strong><br>🥗 ${h.food ? '✅ Healthy' : '❌ Not healthy'} | 🏋️ ${h.workout ? '✅ Workout' : '❌ No workout'}</div>`).join('');
+            container.innerHTML = `<div class="stats-badge">💪 ${filtered.length} days | 🥗 ${foodCount} meals | 🏋️ ${workoutCount} workouts</div>` + filtered.map(h => `<div class="data-entry"><strong>📅 ${h.date}</strong><br>🥗 ${h.food ? '✅' : '❌'} | 🏋️ ${h.workout ? '✅' : '❌'}</div>`).join('');
         }
-        else if(type === 'custom') {
-            renderCustomSectionsData(selectedDate, container);
+        else if(type === 'rewards') {
+            let filtered = redeemedRewards;
+            if(selectedDate !== 'all') filtered = redeemedRewards.filter(r => r.date === selectedDate);
+            const totalSpent = filtered.reduce((sum, r) => sum + r.cost, 0);
+            container.innerHTML = `<div class="stats-badge">🎁 Total Rewards Redeemed: ${filtered.length} (${totalSpent.toLocaleString()} points spent)</div>` + filtered.map(r => `<div class="data-entry"><strong>📅 ${r.date}</strong><br>${r.icon} ${r.name} - ${r.cost.toLocaleString()} points</div>`).join('');
         }
     }
-    
+
     // ========== CUSTOM SECTIONS ==========
     let customSections = [];
     function loadCustomSections() { const saved = localStorage.getItem(STORAGE.CUSTOM_SECTIONS); customSections = saved ? JSON.parse(saved) : []; renderCustomSections(); }
@@ -681,15 +1107,13 @@
     function deleteCustomSection(sectionId) { customSections = customSections.filter(s => s.id !== sectionId); saveCustomSections(); rebuildTabs(); }
     function renderCustomSections() { const container = document.getElementById('customSectionsContainer'); if(!container) return; container.innerHTML = customSections.map(section => `<div id="tab-custom-${section.id}" class="panel"><div class="card"><div class="card-title">📌 ${escapeHtml(section.name)}</div><div id="custom-entries-${section.id}" style="max-height:300px; overflow-y:auto; margin-bottom:1rem;"></div><div style="display:flex; gap:10px;"><input type="text" id="custom-input-${section.id}" placeholder="Add entry..." style="flex:2;"><button onclick="addCustomEntry(${section.id}, document.getElementById('custom-input-${section.id}').value); document.getElementById('custom-input-${section.id}').value='';">➕ Add Entry</button></div></div></div>`).join('');
         customSections.forEach(section => { const entriesContainer = document.getElementById(`custom-entries-${section.id}`); if(entriesContainer) { entriesContainer.innerHTML = section.entries.slice().reverse().map(e => `<div class="data-entry"><strong>📅 ${e.date}</strong><br>${escapeHtml(e.text)}</div>`).join('') || '<div class="data-entry">No entries yet</div>'; } }); }
-    function renderCustomSectionsData(selectedDate, container) { let allEntries = []; customSections.forEach(section => { let entries = section.entries; if(selectedDate !== 'all') entries = entries.filter(e => e.date === selectedDate); entries.forEach(e => allEntries.push({ section: section.name, ...e })); }); allEntries.sort((a,b)=>b.date.localeCompare(a.date)); container.innerHTML = `<div class="stats-badge">📌 Custom Sections: ${customSections.length} sections</div>` + allEntries.map(e => `<div class="data-entry"><strong>📅 ${e.date} · ${escapeHtml(e.section)}</strong><br>${escapeHtml(e.text)}</div>`).join('') || '<div class="data-entry">No custom entries yet</div>'; }
-    
     function addTab(sectionName) { const tabsContainer = document.getElementById('tabsContainer'); const tabBtn = document.createElement('button'); tabBtn.className = 'tab-btn'; tabBtn.setAttribute('data-tab', `tab-custom-${customSections[customSections.length-1].id}`); tabBtn.innerHTML = `📌 ${escapeHtml(sectionName)} <span class="tab-close" data-id="${customSections[customSections.length-1].id}">✕</span>`; tabsContainer.appendChild(tabBtn); attachTabEvents(); }
     function rebuildTabs() { const tabsContainer = document.getElementById('tabsContainer'); const originalTabs = Array.from(tabsContainer.children).filter(btn => !btn.innerHTML.includes('tab-custom-')); tabsContainer.innerHTML = ''; originalTabs.forEach(btn => tabsContainer.appendChild(btn)); customSections.forEach(section => { const tabBtn = document.createElement('button'); tabBtn.className = 'tab-btn'; tabBtn.setAttribute('data-tab', `tab-custom-${section.id}`); tabBtn.innerHTML = `📌 ${escapeHtml(section.name)} <span class="tab-close" data-id="${section.id}">✕</span>`; tabsContainer.appendChild(tabBtn); }); attachTabEvents(); }
     function attachTabEvents() { document.querySelectorAll('.tab-btn').forEach(btn => { btn.onclick = (e) => { if(e.target.classList.contains('tab-close')) { const id = parseInt(e.target.dataset.id); deleteCustomSection(id); return; } document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active-panel')); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); const tabId = btn.getAttribute('data-tab'); const panel = document.getElementById(tabId); if(panel) panel.classList.add('active-panel'); btn.classList.add('active'); }; }); }
 
     // ========== INIT ==========
     document.addEventListener('DOMContentLoaded', () => {
-        initTheme(); loadPoints(); loadTasks(); loadPomodoro(); loadWords(); loadHealth(); loadCustomSections();
+        initTheme(); loadPoints(); loadTasks(); loadPomodoro(); loadWords(); loadHealth(); loadRedeemedRewards(); loadCustomSections();
         document.getElementById('themeToggleBtn').onclick = toggleTheme;
         document.getElementById('addTodoBtn').onclick = () => { addTask(document.getElementById('todoTitle').value); document.getElementById('todoTitle').value = ''; };
         document.querySelectorAll('.preset-btn').forEach(btn => { btn.onclick = () => setTimer(parseInt(btn.dataset.minutes)); });
@@ -697,7 +1121,7 @@
         document.getElementById('pomoStart').onclick = startTimer;
         document.getElementById('pomoPause').onclick = pauseTimer;
         document.getElementById('pomoReset').onclick = resetTimer;
-        document.getElementById('addWordBtn').onclick = () => { addWord(document.getElementById('wordTerm').value, document.getElementById('wordMeaning').value, document.getElementById('wordSynonyms').value, document.getElementById('wordAntonyms').value); document.getElementById('wordTerm').value=''; document.getElementById('wordMeaning').value=''; };
+        document.getElementById('addWordBtn').onclick = () => { addWord(document.getElementById('wordTerm').value, document.getElementById('wordMeaning').value, document.getElementById('wordSynonyms').value, document.getElementById('wordAntonyms').value); document.getElementById('wordTerm').value=''; document.getElementById('wordMeaning').value=''; document.getElementById('wordSynonyms').value=''; document.getElementById('wordAntonyms').value=''; };
         document.getElementById('addHealthEntryBtn').onclick = () => { addHealthEntry(document.getElementById('healthDate').value||getTodayStr(), document.getElementById('foodStatus').value, document.getElementById('workoutStatus').value); };
         document.getElementById('refreshDataView').onclick = renderInsights;
         document.getElementById('addNewSectionBtn').onclick = () => { const name = prompt('Enter section name:'); if(name) addCustomSection(name); };
@@ -707,15 +1131,8 @@
         document.getElementById('healthDate').value = getTodayStr();
         attachTabEvents();
         updateInsightDates();
-        
-        // Handle page visibility - timer continues but we don't need to do anything special
-        // because setInterval continues running in background!
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden && isTimerRunning) {
-                // Just refresh display when tab becomes visible
-                updateTimerDisplay();
-            }
-        });
+        updateProgressBar();
+        document.addEventListener('visibilitychange', () => { if (!document.hidden && isTimerRunning) updateTimerDisplay(); });
     });
 </script>
 </body>
