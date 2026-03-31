@@ -78,16 +78,36 @@
 
         .grid-2col { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.8rem; }
 
-        .timer-display { font-size: 4rem; font-weight: 800; font-family: monospace; text-align: center; background: var(--bg-primary); padding: 1rem; border-radius: 60px; }
+        .timer-display {
+            font-size: 5rem;
+            font-weight: 800;
+            font-family: monospace;
+            text-align: center;
+            background: var(--bg-primary);
+            padding: 1.5rem;
+            border-radius: 60px;
+            letter-spacing: 6px;
+        }
         .pomo-controls, .timer-presets { display: flex; justify-content: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; }
         .preset-btn { background: var(--bg-primary); border: 1px solid var(--border-light); padding: 0.5rem 1rem; border-radius: 40px; cursor: pointer; }
         .custom-timer { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
         .custom-timer input { width: 100px; text-align: center; background: var(--input-bg); border: 1px solid var(--border-light); border-radius: 40px; padding: 0.5rem; }
 
+        .timer-status {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            border-radius: 40px;
+            font-weight: 500;
+        }
+        .timer-status.active { background: var(--success); color: white; animation: pulse 1s infinite; }
+        .timer-status.paused { background: var(--warning); color: white; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+
         .todo-item { background: var(--bg-primary); border-radius: 20px; padding: 0.8rem 1rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 12px; border: 1px solid var(--border-light); }
         .todo-content { flex: 1; }
         .todo-text { font-weight: 500; }
-        .todo-actions button { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
+        .todo-actions button { background: none; border: none; font-size: 1rem; cursor: pointer; padding: 0.3rem 0.8rem; border-radius: 40px; }
 
         .data-selector { margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
         .data-selector select, .data-selector input { flex: 1; padding: 0.7rem; border-radius: 40px; background: var(--input-bg); border: 1px solid var(--border-light); }
@@ -105,13 +125,23 @@
         input, select, textarea { background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--border-light); padding: 0.7rem 1rem; border-radius: 40px; }
 
         @keyframes fade { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
-        @media (max-width: 640px) { body { padding: 1rem; } .timer-display { font-size: 2.5rem; } }
+        @media (max-width: 640px) { body { padding: 1rem; } .timer-display { font-size: 3rem; letter-spacing: 2px; } }
+        
+        .live-badge {
+            background: var(--success);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            margin-left: 8px;
+            animation: pulse 1s infinite;
+        }
     </style>
 </head>
 <body>
 <div class="app-container">
     <div class="header">
-        <h1>🏆 ZenithSpace · Smart Tracker</h1>
+        <h1>📊 Complete Life Dashboard <span id="liveTimerBadge" style="display:none;" class="live-badge">🔴 LIVE</span></h1>
         <button class="theme-toggle" id="themeToggleBtn">🌙 Dark Mode</button>
         <button id="addNewSectionBtn" class="add-section-btn">➕ Add Custom Section</button>
     </div>
@@ -123,7 +153,7 @@
 
     <div class="tabs" id="tabsContainer">
         <button class="tab-btn active" data-tab="tab-todo">✅ Daily Tasks</button>
-        <button class="tab-btn" data-tab="tab-pomo">🍅 Pomodoro</button>
+        <button class="tab-btn" data-tab="tab-pomo">🍅 Pomodoro Timer</button>
         <button class="tab-btn" data-tab="tab-words">📖 Word Vault</button>
         <button class="tab-btn" data-tab="tab-health">💪 Health Tracker</button>
         <button class="tab-btn" data-tab="tab-data">📊 Insights</button>
@@ -133,7 +163,7 @@
     <div id="tab-todo" class="panel active-panel">
         <div class="card">
             <div class="card-title">📋 Daily Tasks</div>
-            <div style="font-size:0.8rem; margin-bottom:1rem; color:var(--text-secondary);">✨ Tasks reset daily at midnight. Completed tasks earn 10 points each and are saved in insights.</div>
+            <div style="font-size:0.8rem; margin-bottom:1rem; color:var(--text-secondary);">✨ Tasks reset daily. Complete tasks to earn 10 points each!</div>
             <div id="todo-list-container"></div>
             <div class="add-todo-form" style="display:flex; gap:10px; margin-top:1rem; flex-wrap:wrap;">
                 <input type="text" id="todoTitle" placeholder="Task for today..." style="flex:2;">
@@ -142,12 +172,13 @@
         </div>
     </div>
 
-    <!-- Pomodoro Panel -->
+    <!-- Pomodoro Panel with Live Timer that runs in background -->
     <div id="tab-pomo" class="panel">
         <div class="grid-2col">
             <div class="card">
-                <div class="card-title">🍅 Pomodoro Timer</div>
+                <div class="card-title">🍅 Pomodoro Timer <span id="pomoLiveBadge" style="display:none;" class="live-badge">🔴 RUNNING</span></div>
                 <div class="timer-display" id="timerLabel">25:00</div>
+                <div class="timer-status" id="timerStatus">⚪ Ready</div>
                 <div class="timer-presets">
                     <button class="preset-btn" data-minutes="25">📘 25min (1 pt)</button>
                     <button class="preset-btn" data-minutes="50">📚 50min (2 pts)</button>
@@ -158,15 +189,15 @@
                     <button id="setCustomTimer">Set Custom</button>
                 </div>
                 <div class="pomo-controls">
-                    <button id="pomoStart">▶ Start</button>
-                    <button id="pomoPause">⏸ Pause</button>
-                    <button id="pomoReset">🔄 Reset</button>
+                    <button id="pomoStart" class="success">▶ Start</button>
+                    <button id="pomoPause" class="warning">⏸ Pause</button>
+                    <button id="pomoReset" class="secondary">🔄 Reset</button>
                 </div>
-                <div style="background:var(--bg-primary); border-radius:24px; padding:1rem; text-align:center;">
+                <div style="background:var(--bg-primary); border-radius:24px; padding:1rem; text-align:center; margin-top:1rem;">
                     <div>✅ Today: <strong id="sessionCountToday">0</strong> sessions</div>
                     <div>📅 Total: <strong id="totalSessionsYear">0</strong> sessions</div>
-                    <div>🎯 Points earned: <strong id="totalPointsFromPomo">0</strong></div>
-                    <div style="font-size:0.7rem;">⚡ Points = minutes ÷ 25 (any duration works!)</div>
+                    <div>🎯 Total Points: <strong id="totalPointsFromPomo">0</strong></div>
+                    <div style="font-size:0.7rem;">⚡ Points = minutes ÷ 25 (rounded up) — Timer runs in background! Watch the tab title 👆</div>
                 </div>
             </div>
             <div class="card">
@@ -205,7 +236,7 @@
         </div>
     </div>
 
-    <!-- Health Tracker with Yes/No Options -->
+    <!-- Health Tracker -->
     <div id="tab-health" class="panel">
         <div class="card">
             <div class="card-title">💪 Health Tracker</div>
@@ -225,7 +256,7 @@
         </div>
     </div>
 
-    <!-- Insights Panel with Date-wise Dropdown -->
+    <!-- Insights Panel -->
     <div id="tab-data" class="panel">
         <div class="card">
             <div class="card-title">📊 Date-wise Insights</div>
@@ -243,23 +274,23 @@
                 <button id="refreshDataView" class="secondary">🔄 Refresh</button>
             </div>
             <div id="dataViewer" class="data-viewer">
-                <div class="data-entry">Select a date range and category to view your progress</div>
+                <div class="data-entry">Select a category to view your progress</div>
             </div>
         </div>
     </div>
 
     <div id="customSectionsContainer"></div>
-    <footer style="text-align:center; margin-top:2rem; font-size:0.7rem;">🏆 Points formula: Tasks=10pts | Pomodoro=minutes÷25 pts | Words=5pts | Health=5pts per ✓</footer>
+    <footer style="text-align:center; margin-top:2rem; font-size:0.7rem;">🏆 Timer runs in background using timestamp technology! Switch tabs and watch the countdown in your browser tab title 👆</footer>
 </div>
 
 <script>
     // ========== THEME ==========
     function initTheme() {
-        const saved = localStorage.getItem('zenith_theme');
+        const saved = localStorage.getItem('dashboard_theme');
         if(saved === 'dark') { document.body.classList.add('dark'); document.getElementById('themeToggleBtn').innerHTML = '☀️ Light Mode'; }
         else { document.body.classList.remove('dark'); document.getElementById('themeToggleBtn').innerHTML = '🌙 Dark Mode'; }
     }
-    function toggleTheme() { document.body.classList.toggle('dark'); const isDark = document.body.classList.contains('dark'); localStorage.setItem('zenith_theme', isDark ? 'dark' : 'light'); document.getElementById('themeToggleBtn').innerHTML = isDark ? '☀️ Light Mode' : '🌙 Dark Mode'; }
+    function toggleTheme() { document.body.classList.toggle('dark'); const isDark = document.body.classList.contains('dark'); localStorage.setItem('dashboard_theme', isDark ? 'dark' : 'light'); document.getElementById('themeToggleBtn').innerHTML = isDark ? '☀️ Light Mode' : '🌙 Dark Mode'; }
 
     // ========== MUSIC ==========
     let audioContext = null, currentNodes = [], currentGain = null;
@@ -310,12 +341,12 @@
 
     // ========== STORAGE ==========
     const STORAGE = {
-        TODOS_HISTORY: 'zenith_todos_history',
-        POMO_SESSIONS: 'zenith_pomo_sessions_detailed',
-        WORDS: 'zenith_word_vault',
-        HEALTH: 'zenith_health_logs_detailed',
-        POINTS: 'zenith_points_total',
-        CUSTOM_SECTIONS: 'zenith_custom_sections'
+        TODOS_HISTORY: 'dashboard_todos_history',
+        POMO_SESSIONS: 'dashboard_pomo_sessions',
+        WORDS: 'dashboard_word_vault',
+        HEALTH: 'dashboard_health_logs',
+        POINTS: 'dashboard_points_total',
+        CUSTOM_SECTIONS: 'dashboard_custom_sections'
     };
     function getTodayStr() { return new Date().toISOString().slice(0,10); }
     function escapeHtml(s) { if(!s) return ''; return s.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
@@ -329,7 +360,7 @@
     function updatePointsDisplay() { document.getElementById('totalPoints').innerText = totalPoints; const badge = document.getElementById('achievementBadge'); if(totalPoints >= 500) badge.innerHTML = '👑 Legendary!'; else if(totalPoints >= 300) badge.innerHTML = '🌟 Elite'; else if(totalPoints >= 150) badge.innerHTML = '⭐ Star Learner'; else if(totalPoints >= 50) badge.innerHTML = '✨ Dedicated'; else badge.innerHTML = '🌱 Keep going!'; }
     function checkAchievements() { let achievements = []; if(totalPoints >= 100) achievements.push('💪 100 Points'); if(totalPoints >= 250) achievements.push('⭐ 250 Points'); if(totalPoints >= 500) achievements.push('👑 500 Points'); if(achievements.length) document.getElementById('achievementBadge').innerHTML = achievements.join(' · '); }
 
-    // ========== DAILY TASKS (Auto-resets daily, stores history) ==========
+    // ========== DAILY TASKS ==========
     let currentTasks = [];
     let tasksHistory = [];
     
@@ -338,13 +369,11 @@
         const savedHistory = localStorage.getItem(STORAGE.TODOS_HISTORY);
         if(savedHistory) tasksHistory = JSON.parse(savedHistory);
         else tasksHistory = [];
-        
         const todayTasks = tasksHistory.find(h => h.date === today);
         if(todayTasks) currentTasks = todayTasks.tasks;
-        else { currentTasks = []; saveTasksHistory(); }
+        else currentTasks = [];
         renderTasks();
     }
-    
     function saveTasksHistory() {
         const today = getTodayStr();
         const existingIndex = tasksHistory.findIndex(h => h.date === today);
@@ -353,7 +382,6 @@
         tasksHistory.sort((a,b) => b.date.localeCompare(a.date));
         localStorage.setItem(STORAGE.TODOS_HISTORY, JSON.stringify(tasksHistory));
     }
-    
     function renderTasks() {
         const container = document.getElementById('todo-list-container');
         if(!container) return;
@@ -364,25 +392,195 @@
                     <div class="todo-text" style="text-decoration: ${task.completed ? 'line-through' : 'none'}">${escapeHtml(task.title)}</div>
                 </div>
                 <div class="todo-actions">
-                    ${!task.completed ? `<button data-id="${task.id}" class="complete-task">✓ Complete (+10)</button>` : `<span style="color:var(--success);">✓ Done</span>`}
-                    <button data-id="${task.id}" class="delete-task">🗑️</button>
+                    ${!task.completed ? `<button data-id="${task.id}" class="complete-task" style="background:var(--success);">✓ Complete (+10)</button>` : `<span style="color:var(--success);">✓ Done</span>`}
+                    <button data-id="${task.id}" class="delete-task" style="background:var(--danger);">🗑️</button>
                 </div>
             </div>
         `).join('');
-        
         document.querySelectorAll('.complete-task').forEach(btn => { btn.onclick = () => { const task = currentTasks.find(t => t.id == btn.dataset.id); if(task && !task.completed) { task.completed = true; addPoints(10, `Completed: "${task.title.substring(0,30)}"`); saveTasksHistory(); renderTasks(); updateInsightDates(); } }; });
         document.querySelectorAll('.delete-task').forEach(btn => { btn.onclick = () => { currentTasks = currentTasks.filter(t => t.id != btn.dataset.id); saveTasksHistory(); renderTasks(); updateInsightDates(); }; });
     }
-    
     function addTask(title) { if(title.trim()) { currentTasks.push({ id: Date.now(), title: title.trim(), completed: false }); saveTasksHistory(); renderTasks(); updateInsightDates(); } }
 
-    // ========== POMODORO with Points = Minutes ÷ 25 ==========
-    let pomodoroSessions = []; // { date, minutes, points }
-    let timerInterval = null, timeLeft = 25*60, isRunning = false, currentMinutes = 25;
+    // ========== POMODORO with REAL BACKGROUND TIMER ==========
+    let pomodoroSessions = [];
+    let timerEndTime = null;  // Unix timestamp when timer will end
+    let isTimerRunning = false;
+    let currentMinutes = 25;
+    let timerInterval = null;
     
-    function loadPomodoro() { const saved = localStorage.getItem(STORAGE.POMO_SESSIONS); pomodoroSessions = saved ? JSON.parse(saved) : []; updatePomoStats(); }
-    function savePomodoro() { localStorage.setItem(STORAGE.POMO_SESSIONS, JSON.stringify(pomodoroSessions)); updatePomoStats(); updateInsightDates(); }
     function calculatePoints(minutes) { return Math.ceil(minutes / 25); }
+    
+    function updateTimerDisplay() {
+        if (isTimerRunning && timerEndTime) {
+            const now = Date.now();
+            const remainingSeconds = Math.max(0, Math.floor((timerEndTime - now) / 1000));
+            
+            if (remainingSeconds <= 0) {
+                completePomodoro();
+                return;
+            }
+            
+            const mins = Math.floor(remainingSeconds / 60);
+            const secs = remainingSeconds % 60;
+            const display = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            document.getElementById('timerLabel').innerText = display;
+            
+            // Update tab title with timer - THIS WORKS IN BACKGROUND TABS!
+            document.title = `🍅 ${display} - Timer Running | Complete Life Dashboard`;
+            
+            return remainingSeconds;
+        } else {
+            const remainingSeconds = timerEndTime ? Math.max(0, Math.floor((timerEndTime - Date.now()) / 1000)) : currentMinutes * 60;
+            const mins = Math.floor(remainingSeconds / 60);
+            const secs = remainingSeconds % 60;
+            document.getElementById('timerLabel').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            if (!isTimerRunning && document.title.includes('Timer Running')) {
+                document.title = `📊 Complete Life Dashboard`;
+            }
+            return remainingSeconds;
+        }
+    }
+    
+    function startTimer() {
+        if (isTimerRunning) return;
+        
+        // If there's a remaining time, set end time based on current remaining
+        const currentDisplay = document.getElementById('timerLabel').innerText;
+        const [mins, secs] = currentDisplay.split(':').map(Number);
+        const currentRemaining = (mins * 60) + secs;
+        
+        if (currentRemaining <= 0) {
+            resetTimer();
+            return;
+        }
+        
+        timerEndTime = Date.now() + (currentRemaining * 1000);
+        isTimerRunning = true;
+        
+        // Update UI
+        document.getElementById('timerStatus').innerHTML = '⏳ Timer Running (works in background!)';
+        document.getElementById('timerStatus').className = 'timer-status active';
+        document.getElementById('pomoLiveBadge').style.display = 'inline-block';
+        document.getElementById('liveTimerBadge').style.display = 'inline-block';
+        
+        // Clear any existing interval
+        if (timerInterval) clearInterval(timerInterval);
+        
+        // Start interval that updates every second - THIS RUNS IN BACKGROUND!
+        timerInterval = setInterval(() => {
+            updateTimerDisplay();
+        }, 1000);
+        
+        updateTimerDisplay();
+    }
+    
+    function pauseTimer() {
+        if (!isTimerRunning) return;
+        
+        // Calculate remaining time
+        const now = Date.now();
+        const remainingSeconds = Math.max(0, Math.floor((timerEndTime - now) / 1000));
+        
+        // Stop the timer
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = null;
+        isTimerRunning = false;
+        timerEndTime = null;
+        
+        // Update display with remaining time
+        const mins = Math.floor(remainingSeconds / 60);
+        const secs = remainingSeconds % 60;
+        document.getElementById('timerLabel').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+        document.getElementById('timerStatus').innerHTML = '⏸ Paused';
+        document.getElementById('timerStatus').className = 'timer-status paused';
+        document.getElementById('pomoLiveBadge').style.display = 'none';
+        document.getElementById('liveTimerBadge').style.display = 'none';
+        document.title = `⏸ Paused - Complete Life Dashboard`;
+    }
+    
+    function resetTimer() {
+        // Stop timer
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = null;
+        isTimerRunning = false;
+        timerEndTime = null;
+        
+        // Reset to current minutes
+        const mins = Math.floor(currentMinutes);
+        const secs = 0;
+        document.getElementById('timerLabel').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+        document.getElementById('timerStatus').innerHTML = '⚪ Ready';
+        document.getElementById('timerStatus').className = 'timer-status';
+        document.getElementById('pomoLiveBadge').style.display = 'none';
+        document.getElementById('liveTimerBadge').style.display = 'none';
+        document.title = `📊 Complete Life Dashboard`;
+    }
+    
+    function completePomodoro() {
+        // Stop timer
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = null;
+        
+        const minutesCompleted = currentMinutes;
+        const pointsEarned = calculatePoints(minutesCompleted);
+        
+        const session = { 
+            date: getTodayStr(), 
+            minutes: minutesCompleted, 
+            points: pointsEarned,
+            timestamp: Date.now()
+        };
+        pomodoroSessions.push(session);
+        localStorage.setItem(STORAGE.POMO_SESSIONS, JSON.stringify(pomodoroSessions));
+        updatePomoStats();
+        addPoints(pointsEarned, `${minutesCompleted}min Pomodoro (${pointsEarned} pts)`);
+        
+        // Reset timer state
+        isTimerRunning = false;
+        timerEndTime = null;
+        
+        const mins = Math.floor(currentMinutes);
+        document.getElementById('timerLabel').innerText = `${mins.toString().padStart(2,'0')}:00`;
+        document.getElementById('timerStatus').innerHTML = '✅ Complete! +' + pointsEarned + ' points';
+        document.getElementById('timerStatus').className = 'timer-status';
+        document.getElementById('pomoLiveBadge').style.display = 'none';
+        document.getElementById('liveTimerBadge').style.display = 'none';
+        
+        // Visual feedback
+        showRewardToast(`🎉 Pomodoro complete! +${pointsEarned} points`);
+        updateInsightDates();
+        document.title = `✅ Complete! +${pointsEarned} pts`;
+        setTimeout(() => { if(!isTimerRunning) document.title = `📊 Complete Life Dashboard`; }, 3000);
+        
+        // Reset after completion
+        setTimeout(() => {
+            if (!isTimerRunning) {
+                document.getElementById('timerStatus').innerHTML = '⚪ Ready';
+            }
+        }, 2000);
+    }
+    
+    function setTimer(minutes) {
+        if (isTimerRunning) {
+            pauseTimer();
+        }
+        currentMinutes = minutes;
+        const mins = Math.floor(minutes);
+        document.getElementById('timerLabel').innerText = `${mins.toString().padStart(2,'0')}:00`;
+        document.getElementById('timerStatus').innerHTML = '⚪ Ready';
+        document.getElementById('timerStatus').className = 'timer-status';
+        document.getElementById('pomoLiveBadge').style.display = 'none';
+        document.getElementById('liveTimerBadge').style.display = 'none';
+    }
+    
+    function loadPomodoro() { 
+        const saved = localStorage.getItem(STORAGE.POMO_SESSIONS); 
+        pomodoroSessions = saved ? JSON.parse(saved) : []; 
+        updatePomoStats(); 
+        setTimer(25);
+    }
+    
     function updatePomoStats() {
         const today = getTodayStr();
         const todaySessions = pomodoroSessions.filter(s => s.date === today);
@@ -392,21 +590,6 @@
         document.getElementById('totalSessionsYear').innerText = totalSessions;
         document.getElementById('totalPointsFromPomo').innerText = totalPoints;
     }
-    
-    function addPomodoroSession(minutes) {
-        const points = calculatePoints(minutes);
-        const session = { date: getTodayStr(), minutes: minutes, points: points, timestamp: Date.now() };
-        pomodoroSessions.push(session);
-        savePomodoro();
-        addPoints(points, `${minutes}min Pomodoro (${points} pts)`);
-        updatePomoStats();
-    }
-    
-    function updateTimerDisplay() { let m=Math.floor(timeLeft/60), s=timeLeft%60; document.getElementById("timerLabel").innerText=`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
-    function startTimer() { if(timerInterval) clearInterval(timerInterval); isRunning=true; timerInterval=setInterval(()=>{ if(timeLeft>0 && isRunning){ timeLeft--; updateTimerDisplay(); } else if(timeLeft===0 && isRunning){ clearInterval(timerInterval); isRunning=false; addPomodoroSession(currentMinutes); alert(`🎉 Session complete! +${calculatePoints(currentMinutes)} points!`); } },1000); }
-    function pauseTimer(){ isRunning=false; if(timerInterval) clearInterval(timerInterval); timerInterval=null; }
-    function resetTimer(){ pauseTimer(); timeLeft = currentMinutes * 60; updateTimerDisplay(); }
-    function setTimer(minutes){ pauseTimer(); currentMinutes = minutes; timeLeft = minutes * 60; updateTimerDisplay(); }
 
     // ========== WORD VAULT ==========
     let words = [];
@@ -439,13 +622,16 @@
     function renderHealth() { const container = document.getElementById("healthEntriesList"); if(!container) return; if(!healthLogs.length) { container.innerHTML = "<div style='padding:1rem; text-align:center;'>No health logs yet</div>"; return; } container.innerHTML = healthLogs.map(h => `<div style="background:var(--bg-primary); border-radius:16px; padding:10px; margin-bottom:6px;"><strong>📅 ${h.date}</strong><br>🥗 Proper Food: ${h.food ? '✅ Yes' : '❌ No'} | 🏋️ Workout: ${h.workout ? '✅ Done' : '❌ Not done'}<button data-date="${h.date}" class="del-health" style="margin-left:10px; background:#ef4444; padding:2px 12px;">Delete</button></div>`).join('');
         document.querySelectorAll('.del-health').forEach(btn => { btn.onclick = () => { healthLogs = healthLogs.filter(h=>h.date!==btn.dataset.date); saveHealth(); }; }); }
 
-    // ========== INSIGHTS with Date-wise Dropdown ==========
+    // ========== INSIGHTS ==========
     function updateInsightDates() {
         const dates = new Set();
         tasksHistory.forEach(h => dates.add(h.date));
         pomodoroSessions.forEach(s => dates.add(s.date));
         words.forEach(w => dates.add(w.date));
         healthLogs.forEach(h => dates.add(h.date));
+        customSections.forEach(section => {
+            section.entries.forEach(e => dates.add(e.date));
+        });
         const sortedDates = Array.from(dates).sort().reverse();
         const select = document.getElementById('insightDateSelect');
         select.innerHTML = '<option value="all">📅 All Time</option>' + sortedDates.map(d => `<option value="${d}">📅 ${d}</option>`).join('');
@@ -520,8 +706,16 @@
         document.getElementById('volumeSlider').oninput = e => setVolume(e.target.value);
         document.getElementById('healthDate').value = getTodayStr();
         attachTabEvents();
-        resetTimer(); updateTimerDisplay();
         updateInsightDates();
+        
+        // Handle page visibility - timer continues but we don't need to do anything special
+        // because setInterval continues running in background!
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && isTimerRunning) {
+                // Just refresh display when tab becomes visible
+                updateTimerDisplay();
+            }
+        });
     });
 </script>
 </body>
