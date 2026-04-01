@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
       <title> Complete Life Dashboard 🌱🧠💪 📈🚀</title>
       <link rel="icon" type="image/x-icon" href="download.jpg">
-  <style>
+   <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Premium Aesthetic Color Theme */
         :root {
             --bg-gradient-1: #667eea;
             --bg-gradient-2: #764ba2;
@@ -56,7 +55,6 @@
             position: relative;
         }
 
-        /* Animated Background Particles */
         .particles {
             position: fixed;
             top: 0;
@@ -85,7 +83,6 @@
             z-index: 1;
         }
 
-        /* Glassmorphism Header */
         .header {
             backdrop-filter: blur(20px);
             background: var(--card-bg);
@@ -107,7 +104,6 @@
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            letter-spacing: -0.02em;
         }
         .theme-toggle, .add-section-btn {
             background: rgba(255, 255, 255, 0.2);
@@ -124,10 +120,8 @@
             background: var(--accent-primary);
             color: white;
             transform: translateY(-2px);
-            box-shadow: var(--shadow-glow);
         }
 
-        /* Rewards Banner */
         .rewards-banner {
             background: linear-gradient(135deg, var(--reward-gold), var(--accent-primary));
             border-radius: 30px;
@@ -175,8 +169,21 @@
             font-size: 0.9rem;
             backdrop-filter: blur(10px);
         }
+        .points-progress {
+            width: 200px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 60px;
+            overflow: hidden;
+            height: 8px;
+        }
+        .points-progress-bar {
+            background: white;
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 60px;
+        }
 
-        /* Tabs */
         .tabs {
             display: flex;
             flex-wrap: wrap;
@@ -203,16 +210,14 @@
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             color: white;
             box-shadow: 0 4px 15px var(--accent-glow);
-            transform: scale(1.02);
         }
         .tab-btn:hover:not(.active) {
             background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
         }
 
         .panel {
             display: none;
-            animation: fadeSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeSlideUp 0.5s ease;
         }
         .panel.active-panel { display: block; }
         @keyframes fadeSlideUp {
@@ -220,7 +225,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Glass Cards */
         .card {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
@@ -251,7 +255,48 @@
             gap: 2rem;
         }
 
-        /* Reward Shop */
+        .timer-display {
+            font-size: 5rem;
+            font-weight: 800;
+            font-family: monospace;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            padding: 1.5rem;
+            letter-spacing: 8px;
+        }
+        .timer-status {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 0.6rem;
+            border-radius: 60px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .timer-status.active { background: var(--success); color: white; animation: pulse 1s infinite; }
+        .timer-status.paused { background: var(--warning); color: white; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+        .todo-item, .word-item, .health-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+        .todo-item:hover { transform: translateX(5px); background: rgba(255, 255, 255, 0.15); }
+        .todo-text { font-weight: 600; font-size: 1rem; }
+        .word-details { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+
         .reward-shop {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -265,32 +310,15 @@
             text-align: center;
             transition: all 0.3s ease;
             border: 1px solid var(--border-light);
-            backdrop-filter: blur(10px);
         }
         .reward-item:hover {
             transform: translateY(-8px);
             background: rgba(255, 255, 255, 0.2);
             box-shadow: var(--shadow-glow);
         }
-        .reward-icon {
-            font-size: 3.5rem;
-            margin-bottom: 0.8rem;
-        }
-        .reward-name {
-            font-weight: 800;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-        .reward-cost {
-            color: var(--reward-gold);
-            font-weight: bold;
-            margin: 0.8rem 0;
-            font-size: 1.1rem;
-        }
-        .reward-cost span {
-            font-size: 1.4rem;
-            font-weight: 800;
-        }
+        .reward-icon { font-size: 3.5rem; margin-bottom: 0.8rem; }
+        .reward-name { font-weight: 800; font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .reward-cost { color: var(--reward-gold); font-weight: bold; margin: 0.8rem 0; font-size: 1.1rem; }
         .redeem-btn {
             background: linear-gradient(135deg, var(--reward-gold), var(--warning));
             width: 100%;
@@ -298,11 +326,7 @@
             font-weight: 700;
             padding: 0.7rem;
         }
-        .redeem-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+        .redeem-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         .redeemed-items {
             margin-top: 2rem;
@@ -311,31 +335,26 @@
             border-radius: 24px;
         }
 
-        .timer-display {
-            font-size: 5rem;
-            font-weight: 800;
-            font-family: monospace;
-            text-align: center;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            padding: 1.5rem;
-            letter-spacing: 8px;
-        }
-
-        .todo-item, .word-item {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+        .data-viewer {
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 24px;
             padding: 1rem;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            border: 1px solid var(--border-light);
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .data-entry {
+            padding: 0.8rem;
+            border-bottom: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+        .data-entry:hover { background: rgba(255, 255, 255, 0.05); border-radius: 20px; padding-left: 1.2rem; }
+        .stats-badge {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
         }
 
         button {
@@ -348,12 +367,10 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow);
-        }
+        button:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
         button.danger { background: linear-gradient(135deg, var(--danger), #c53030); }
         button.success { background: linear-gradient(135deg, var(--success), #38a169); }
+        button.warning { background: linear-gradient(135deg, var(--warning), #dd6b20); }
 
         input, select {
             background: rgba(255, 255, 255, 0.1);
@@ -363,6 +380,7 @@
             border-radius: 60px;
             color: var(--text-primary);
         }
+        input:focus, select:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 3px var(--accent-glow); }
 
         .reward-toast {
             position: fixed;
@@ -391,32 +409,6 @@
             display: inline-block;
             margin-left: 10px;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .data-viewer {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: 1rem;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .points-progress {
-            margin-top: 1rem;
-            background: rgba(255,255,255,0.2);
-            border-radius: 60px;
-            overflow: hidden;
-            height: 8px;
-        }
-        .points-progress-bar {
-            background: linear-gradient(135deg, var(--reward-gold), var(--accent-primary));
-            height: 100%;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
 
         footer {
             text-align: center;
@@ -438,7 +430,7 @@
 
 <div class="app-container">
     <div class="header">
-        <h1>✨ Complete Life Dashboard | Premium Rewards</h1>
+        <h1>✨ Complete Life Dashboard | Ultimate Productivity</h1>
         <div style="display: flex; gap: 0.8rem;">
             <button class="theme-toggle" id="themeToggleBtn">🌙 Dark Mode</button>
             <button id="addNewSectionBtn" class="add-section-btn">➕ Add Section</button>
@@ -448,7 +440,7 @@
     <div class="rewards-banner">
         <div class="points-display"><span>🏆</span><span id="totalPoints">0</span><span>Points</span></div>
         <div class="achievement-badge" id="achievementBadge">✨ Keep going!</div>
-        <div class="points-progress" style="width: 200px;">
+        <div class="points-progress">
             <div class="points-progress-bar" id="pointsProgressBar"></div>
         </div>
     </div>
@@ -465,7 +457,7 @@
     <!-- Daily Tasks Panel -->
     <div id="tab-todo" class="panel active-panel">
         <div class="card">
-            <div class="card-title">📋 Daily Tasks <span style="font-size:0.7rem;">(Complete +10 | Delete -10)</span></div>
+            <div class="card-title">📋 Daily Tasks <span style="font-size:0.7rem;">(Complete +10 | Delete -10 | Deleting completed tasks also deducts points)</span></div>
             <div id="todo-list-container"></div>
             <div class="add-todo-form" style="display:flex; gap:12px; margin-top:1.5rem; flex-wrap:wrap;">
                 <input type="text" id="todoTitle" placeholder="What needs to be done?" style="flex:2;">
@@ -487,7 +479,7 @@
                     <button class="preset-btn" data-minutes="75">75min (3 pts)</button>
                 </div>
                 <div class="custom-timer" style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap;">
-                    <input type="number" id="customMinutes" placeholder="Minutes" value="25">
+                    <input type="number" id="customMinutes" placeholder="Minutes" value="25" min="1" max="180">
                     <button id="setCustomTimer">Set Custom</button>
                 </div>
                 <div class="pomo-controls" style="display:flex; justify-content:center; gap:0.8rem; margin:1rem 0;">
@@ -499,6 +491,7 @@
                     <div>✅ Today: <strong id="sessionCountToday">0</strong> sessions</div>
                     <div>📅 Total: <strong id="totalSessionsYear">0</strong> sessions</div>
                     <div>🎯 Points: <strong id="totalPointsFromPomo">0</strong></div>
+                    <div style="font-size:0.7rem;">⚡ Points = minutes ÷ 25 (rounded up)</div>
                 </div>
             </div>
             <div class="card">
@@ -538,9 +531,9 @@
     <!-- Health Tracker Panel -->
     <div id="tab-health" class="panel">
         <div class="card">
-            <div class="card-title">💪 Health Tracker <span style="font-size:0.7rem;">(Log +5 | Delete -5)</span></div>
+            <div class="card-title">💪 Health Tracker <span style="font-size:0.7rem;">(Log +5 each ✓ | Delete deducts points for logged habits)</span></div>
             <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:1.5rem;">
-                <input type="date" id="healthDate">
+                <input type="date" id="healthDate" value="">
                 <select id="foodStatus">
                     <option value="yes">✅ Healthy Meal</option>
                     <option value="no">❌ Not Healthy</option>
@@ -555,14 +548,12 @@
         </div>
     </div>
 
-    <!-- REWARD SHOP PANEL with Custom Rewards -->
+    <!-- Reward Shop Panel -->
     <div id="tab-shop" class="panel">
         <div class="card">
             <div class="card-title">🎁 Premium Reward Shop</div>
-            <p style="margin-bottom: 1rem;">Redeem your hard-earned points for amazing rewards! Keep earning to unlock more treats! 🎉</p>
-            
+            <p style="margin-bottom: 1rem;">Redeem your hard-earned points for amazing rewards! 🎉</p>
             <div class="reward-shop" id="rewardShopContainer"></div>
-            
             <div class="redeemed-items" id="redeemedItemsContainer">
                 <strong>🎖️ Your Redeemed Rewards:</strong>
                 <div id="redeemedList">No rewards redeemed yet. Keep earning points!</div>
@@ -595,7 +586,7 @@
     </div>
 
     <div id="customSectionsContainer"></div>
-    <footer>🌟 Earn points: Tasks(10) | Pomodoro(minutes÷25) | Words(5) | Health(5) | Redeem for amazing rewards! 🍫🥤🏏</footer>
+    <footer>🌟 Points: Tasks(10) | Pomodoro(minutes÷25) | Words(5) | Health(5 per habit) | Deleting ANYTHING deducts points | Redeem for amazing rewards!</footer>
 </div>
 
 <script>
@@ -670,10 +661,10 @@
 
     // ========== STORAGE ==========
     const STORAGE = {
-        TODOS_HISTORY: 'dashboard_todos_history',
+        TODOS_HISTORY: 'dashboard_todos_history_fixed',
         POMO_SESSIONS: 'dashboard_pomo_sessions',
-        WORDS: 'dashboard_word_vault_v2',
-        HEALTH: 'dashboard_health_logs',
+        WORDS: 'dashboard_word_vault_fixed',
+        HEALTH: 'dashboard_health_logs_fixed',
         POINTS: 'dashboard_points_total',
         REWARDS: 'dashboard_redeemed_rewards',
         CUSTOM_SECTIONS: 'dashboard_custom_sections'
@@ -681,164 +672,75 @@
     function getTodayStr() { return new Date().toISOString().slice(0,10); }
     function escapeHtml(s) { if(!s) return ''; return s.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
     
-    // ========== REWARD SHOP SYSTEM with Custom Rewards ==========
+    // ========== REWARD SHOP ==========
     const REWARDS = [
-        { id: 1, name: "🍫 Chocolate Bar", icon: "🍫", cost: 500, description: "Rich, creamy chocolate reward!", category: "Snacks" },
-        { id: 2, name: "🥟 Momo (10 pcs)", icon: "🥟", cost: 2000, description: "Delicious steamed dumplings!", category: "Food" },
-        { id: 3, name: "🍌 Banana Shake", icon: "🥤", cost: 1500, description: "Refreshing & healthy banana shake!", category: "Beverages" },
-        { id: 4, name: "🍦 Ice Cream", icon: "🍦", cost: 1000, description: "Cool and creamy ice cream treat!", category: "Dessert" },
-        { id: 5, name: "🎮 Game Time (2hrs)", icon: "🎮", cost: 2500, description: "2 hours of uninterrupted gaming!", category: "Entertainment" },
-        { id: 6, name: "📚 Book Credit", icon: "📚", cost: 3000, description: "New book of your choice!", category: "Learning" },
-        { id: 7, name: "🏏 Cricket/Movie Night", icon: "🏏", cost: 4000, description: "Cricket match or movie night with friends!", category: "Experiences" }
+        { id: 1, name: "🍫 Chocolate Bar", icon: "🍫", cost: 500, description: "Rich, creamy chocolate reward!" },
+        { id: 2, name: "🥟 Momo (10 pcs)", icon: "🥟", cost: 2000, description: "Delicious steamed dumplings!" },
+        { id: 3, name: "🍌 Banana Shake", icon: "🥤", cost: 1500, description: "Refreshing & healthy banana shake!" },
+        { id: 4, name: "🍦 Ice Cream", icon: "🍦", cost: 1000, description: "Cool and creamy ice cream treat!" },
+        { id: 5, name: "🎮 Game Time (2hrs)", icon: "🎮", cost: 2500, description: "2 hours of uninterrupted gaming!" },
+        { id: 6, name: "📚 Book Credit", icon: "📚", cost: 3000, description: "New book of your choice!" },
+        { id: 7, name: "🏏 Cricket/Movie Night", icon: "🏏", cost: 4000, description: "Cricket match or movie night!" }
     ];
     
     let redeemedRewards = [];
-    
-    function loadRedeemedRewards() {
-        const saved = localStorage.getItem(STORAGE.REWARDS);
-        if(saved) redeemedRewards = JSON.parse(saved);
-        else redeemedRewards = [];
-        renderRewardShop();
-        renderRedeemedItems();
-    }
-    
-    function saveRedeemedRewards() {
-        localStorage.setItem(STORAGE.REWARDS, JSON.stringify(redeemedRewards));
-        renderRedeemedItems();
-        updateInsightDates();
-    }
-    
+    function loadRedeemedRewards() { const saved = localStorage.getItem(STORAGE.REWARDS); redeemedRewards = saved ? JSON.parse(saved) : []; renderRewardShop(); renderRedeemedItems(); }
+    function saveRedeemedRewards() { localStorage.setItem(STORAGE.REWARDS, JSON.stringify(redeemedRewards)); renderRedeemedItems(); updateInsightDates(); }
     function redeemReward(reward) {
         if (totalPoints >= reward.cost) {
             totalPoints -= reward.cost;
             savePoints();
-            
-            const redeemedItem = {
-                id: reward.id,
-                name: reward.name,
-                icon: reward.icon,
-                cost: reward.cost,
-                date: getTodayStr(),
-                timestamp: Date.now()
-            };
-            redeemedRewards.push(redeemedItem);
+            redeemedRewards.push({ id: reward.id, name: reward.name, icon: reward.icon, cost: reward.cost, date: getTodayStr(), timestamp: Date.now() });
             saveRedeemedRewards();
-            
-            // Celebration effect based on reward type
-            let celebrationMessage = `🎁 Redeemed: ${reward.name} for ${reward.cost} points! `;
-            if (reward.name === "🍫 Chocolate Bar") celebrationMessage += "Enjoy your sweet treat! 🍫";
-            else if (reward.name === "🥟 Momo (10 pcs)") celebrationMessage += "Momo time! 🥟🔥";
-            else if (reward.name === "🍌 Banana Shake") celebrationMessage += "Shake it up! 🥤✨";
-            else if (reward.name === "🍦 Ice Cream") celebrationMessage += "Ice cream happiness! 🍦😋";
-            else if (reward.name === "🎮 Game Time (2hrs)") celebrationMessage += "Game on! 🎮🕹️";
-            else if (reward.name === "📚 Book Credit") celebrationMessage += "Happy reading! 📖💫";
-            else if (reward.name === "🏏 Cricket/Movie Night") celebrationMessage += "Enjoy your fun night! 🎬🏏";
-            
-            showRewardToast(celebrationMessage);
-            
-            // Celebration animation
+            showRewardToast(`🎁 Redeemed: ${reward.name} for ${reward.cost} points! Enjoy!`);
             const celebration = document.createElement('div');
-            celebration.style.position = 'fixed';
-            celebration.style.top = '50%';
-            celebration.style.left = '50%';
-            celebration.style.transform = 'translate(-50%, -50%)';
-            celebration.style.fontSize = '6rem';
-            celebration.style.zIndex = '2000';
-            celebration.style.pointerEvents = 'none';
-            celebration.style.animation = 'rewardPop 0.5s ease';
-            celebration.innerHTML = reward.icon;
-            document.body.appendChild(celebration);
-            setTimeout(() => celebration.remove(), 1000);
-            
-        } else {
-            const needed = reward.cost - totalPoints;
-            showRewardToast(`❌ Need ${needed} more points to get ${reward.name}! Keep going! 💪`, true);
-        }
+            celebration.style.position = 'fixed'; celebration.style.top = '50%'; celebration.style.left = '50%';
+            celebration.style.transform = 'translate(-50%, -50%)'; celebration.style.fontSize = '6rem';
+            celebration.style.zIndex = '2000'; celebration.style.pointerEvents = 'none';
+            celebration.style.animation = 'rewardPop 0.5s ease'; celebration.innerHTML = reward.icon;
+            document.body.appendChild(celebration); setTimeout(() => celebration.remove(), 1000);
+        } else { showRewardToast(`❌ Need ${reward.cost - totalPoints} more points for ${reward.name}!`, true); }
     }
-    
     function renderRewardShop() {
         const container = document.getElementById('rewardShopContainer');
         if(!container) return;
-        
-        // Group rewards by category
-        const snacks = REWARDS.filter(r => r.category === "Snacks" || r.category === "Food" || r.category === "Dessert" || r.category === "Beverages");
-        const experiences = REWARDS.filter(r => r.category === "Entertainment" || r.category === "Learning" || r.category === "Experiences");
-        
-        container.innerHTML = `
-            <div style="grid-column:1/-1; margin-bottom:0.5rem;"><h3 style="color:var(--reward-gold);">🍕 Food & Treats</h3></div>
-            ${snacks.map(reward => `
-                <div class="reward-item">
-                    <div class="reward-icon">${reward.icon}</div>
-                    <div class="reward-name">${reward.name}</div>
-                    <div class="reward-cost">💰 <span>${reward.cost.toLocaleString()}</span> points</div>
-                    <div style="font-size:0.75rem; margin-bottom:0.8rem;">${reward.description}</div>
-                    <button class="redeem-btn" data-id="${reward.id}" data-name="${reward.name}" data-cost="${reward.cost}" ${totalPoints < reward.cost ? 'disabled' : ''}>
-                        🎁 Redeem
-                    </button>
-                </div>
-            `).join('')}
-            <div style="grid-column:1/-1; margin:1rem 0 0.5rem;"><h3 style="color:var(--reward-gold);">🎯 Experiences & Entertainment</h3></div>
-            ${experiences.map(reward => `
-                <div class="reward-item">
-                    <div class="reward-icon">${reward.icon}</div>
-                    <div class="reward-name">${reward.name}</div>
-                    <div class="reward-cost">💰 <span>${reward.cost.toLocaleString()}</span> points</div>
-                    <div style="font-size:0.75rem; margin-bottom:0.8rem;">${reward.description}</div>
-                    <button class="redeem-btn" data-id="${reward.id}" data-name="${reward.name}" data-cost="${reward.cost}" ${totalPoints < reward.cost ? 'disabled' : ''}>
-                        🎁 Redeem
-                    </button>
-                </div>
-            `).join('')}
-        `;
-        
-        document.querySelectorAll('.redeem-btn').forEach(btn => {
-            btn.onclick = () => {
-                const reward = REWARDS.find(r => r.id == btn.dataset.id);
-                if(reward) redeemReward(reward);
-            };
-        });
+        container.innerHTML = REWARDS.map(reward => `
+            <div class="reward-item">
+                <div class="reward-icon">${reward.icon}</div>
+                <div class="reward-name">${reward.name}</div>
+                <div class="reward-cost">💰 <span>${reward.cost.toLocaleString()}</span> points</div>
+                <div style="font-size:0.75rem; margin-bottom:0.8rem;">${reward.description}</div>
+                <button class="redeem-btn" data-id="${reward.id}" ${totalPoints < reward.cost ? 'disabled' : ''}>🎁 Redeem</button>
+            </div>
+        `).join('');
+        document.querySelectorAll('.redeem-btn').forEach(btn => { btn.onclick = () => { const reward = REWARDS.find(r => r.id == btn.dataset.id); if(reward) redeemReward(reward); }; });
     }
-    
     function renderRedeemedItems() {
         const container = document.getElementById('redeemedList');
         if(!container) return;
-        if(redeemedRewards.length === 0) {
-            container.innerHTML = 'No rewards redeemed yet. Keep earning points! 🎯';
-            return;
-        }
+        if(redeemedRewards.length === 0) { container.innerHTML = 'No rewards redeemed yet. Keep earning points! 🎯'; return; }
         const totalSpent = redeemedRewards.reduce((sum, r) => sum + r.cost, 0);
-        container.innerHTML = `<div style="margin-bottom:0.8rem; padding:0.5rem; background:rgba(255,255,255,0.1); border-radius:20px;">💎 Total Points Spent: ${totalSpent.toLocaleString()}</div>` + 
-            redeemedRewards.slice().reverse().map(r => `
-            <div style="display:flex; align-items:center; gap:12px; padding:10px; background:rgba(255,255,255,0.1); border-radius:20px; margin-bottom:8px;">
-                <span style="font-size:2rem;">${r.icon}</span>
-                <div style="flex:1;">
-                    <strong>${r.name}</strong><br>
-                    <small>Redeemed on ${r.date} • ${r.cost.toLocaleString()} points</small>
-                </div>
-            </div>
-        `).join('');
+        container.innerHTML = `<div style="margin-bottom:0.8rem;">💎 Total Points Spent: ${totalSpent.toLocaleString()}</div>` + 
+            redeemedRewards.slice().reverse().map(r => `<div style="display:flex; align-items:center; gap:12px; padding:10px; background:rgba(255,255,255,0.1); border-radius:20px; margin-bottom:8px;"><span style="font-size:2rem;">${r.icon}</span><div><strong>${r.name}</strong><br><small>Redeemed on ${r.date} • ${r.cost.toLocaleString()} points</small></div></div>`).join('');
     }
     
     // ========== POINTS SYSTEM ==========
     let totalPoints = 0;
     function loadPoints() { const saved = localStorage.getItem(STORAGE.POINTS); totalPoints = saved ? parseInt(saved) : 0; updatePointsDisplay(); }
-    function savePoints() { localStorage.setItem(STORAGE.POINTS, totalPoints); updatePointsDisplay(); renderRewardShop(); updateProgressBar(); }
-    function addPoints(amount, reason) { totalPoints += amount; savePoints(); showRewardToast(`+${amount} pts! ${reason}`); checkMilestones(); updateProgressBar(); }
-    function deductPoints(amount, reason) { totalPoints = Math.max(0, totalPoints - amount); savePoints(); showRewardToast(`-${amount} pts! ${reason}`, true); checkMilestones(); updateProgressBar(); }
+    function savePoints() { localStorage.setItem(STORAGE.POINTS, totalPoints); updatePointsDisplay(); renderRewardShop(); }
+    function addPoints(amount, reason) { totalPoints += amount; savePoints(); showRewardToast(`+${amount} pts! ${reason}`); checkMilestones(); }
+    function deductPoints(amount, reason) { totalPoints = Math.max(0, totalPoints - amount); savePoints(); showRewardToast(`-${amount} pts! ${reason}`, true); }
     function showRewardToast(message, isDeduct = false) { 
-        const toast = document.createElement('div'); 
-        toast.className = 'reward-toast'; 
+        const toast = document.createElement('div'); toast.className = 'reward-toast'; 
         toast.style.background = isDeduct ? 'linear-gradient(135deg, var(--danger), var(--warning))' : 'linear-gradient(135deg, var(--reward-gold), var(--accent-primary))';
-        toast.innerHTML = isDeduct ? `⚠️ ${message}` : `🎉 ${message}`; 
-        document.body.appendChild(toast); 
-        setTimeout(() => toast.remove(), 3000); 
+        toast.innerHTML = isDeduct ? `⚠️ ${message}` : `🎉 ${message}`; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); 
     }
     function updatePointsDisplay() { 
         document.getElementById('totalPoints').innerText = totalPoints.toLocaleString(); 
         const badge = document.getElementById('achievementBadge');
-        if(totalPoints >= 4000) badge.innerHTML = '👑 LEGEND! 🏆 All Rewards Unlocked!';
-        else if(totalPoints >= 3000) badge.innerHTML = '🌟 Book Lover! 📚';
-        else if(totalPoints >= 2500) badge.innerHTML = '🎮 Gamer! 🎮';
+        if(totalPoints >= 4000) badge.innerHTML = '👑 LEGEND! All Rewards Unlocked!';
+        else if(totalPoints >= 3000) badge.innerHTML = '📚 Book Lover!';
+        else if(totalPoints >= 2500) badge.innerHTML = '🎮 Gamer!';
         else if(totalPoints >= 2000) badge.innerHTML = '🥟 Momo Master!';
         else if(totalPoints >= 1500) badge.innerHTML = '🥤 Shake Enthusiast!';
         else if(totalPoints >= 1000) badge.innerHTML = '🍦 Ice Cream Hunter!';
@@ -846,25 +748,21 @@
         else if(totalPoints >= 250) badge.innerHTML = '⭐ Rising Star';
         else if(totalPoints >= 100) badge.innerHTML = '✨ Dedicated Learner';
         else badge.innerHTML = '🌱 Keep going!';
-        updateProgressBar();
-    }
-    function updateProgressBar() {
         const nextMilestone = [500, 1000, 1500, 2000, 2500, 3000, 4000].find(m => m > totalPoints) || 4000;
         const progressPercent = Math.min(100, (totalPoints / nextMilestone) * 100);
-        const progressBar = document.getElementById('pointsProgressBar');
-        if(progressBar) progressBar.style.width = progressPercent + '%';
+        document.getElementById('pointsProgressBar').style.width = progressPercent + '%';
     }
     function checkMilestones() {
         if(totalPoints >= 4000) showRewardToast(`🎉 AMAZING! You've unlocked ALL rewards! 🏆✨`);
         else if(totalPoints >= 3000) showRewardToast(`🎉 3000 points! Book Credit unlocked! 📚`);
         else if(totalPoints >= 2500) showRewardToast(`🎉 2500 points! Game Time unlocked! 🎮`);
-        else if(totalPoints >= 2000) showRewardToast(`🎉 2000 points! Momo unlocked! 🥟🔥`);
+        else if(totalPoints >= 2000) showRewardToast(`🎉 2000 points! Momo unlocked! 🥟`);
         else if(totalPoints >= 1500) showRewardToast(`🎉 1500 points! Banana Shake unlocked! 🥤`);
         else if(totalPoints >= 1000) showRewardToast(`🎉 1000 points! Ice Cream unlocked! 🍦`);
         else if(totalPoints >= 500) showRewardToast(`🎉 500 points! Chocolate Bar unlocked! 🍫`);
     }
 
-    // ========== DAILY TASKS ==========
+    // ========== DAILY TASKS with Proper Points Deduction ==========
     let currentTasks = [], tasksHistory = [];
     function loadTasks() {
         const today = getTodayStr();
@@ -892,15 +790,39 @@
             <div class="todo-item" style="opacity: ${task.completed ? 0.6 : 1};">
                 <div style="flex:1">
                     <div class="todo-text" style="text-decoration: ${task.completed ? 'line-through' : 'none'}">${escapeHtml(task.title)}</div>
+                    ${task.completed ? '<div style="font-size:0.7rem; color:var(--success);">✓ Completed (+10 points earned)</div>' : ''}
                 </div>
                 <div style="display:flex; gap:8px;">
                     ${!task.completed ? `<button data-id="${task.id}" class="complete-task" style="background:var(--success);">✓ Complete (+10)</button>` : `<span style="color:var(--success);">✓ Done</span>`}
-                    <button data-id="${task.id}" class="delete-task" style="background:var(--danger);">🗑️ Delete (-10)</button>
+                    <button data-id="${task.id}" class="delete-task" style="background:var(--danger);">🗑️ Delete (${task.completed ? '-10' : '-0'})</button>
                 </div>
             </div>
         `).join('');
-        document.querySelectorAll('.complete-task').forEach(btn => { btn.onclick = () => { const task = currentTasks.find(t => t.id == btn.dataset.id); if(task && !task.completed) { task.completed = true; addPoints(10, `Completed: "${task.title.substring(0,30)}"`); saveTasksHistory(); renderTasks(); updateInsightDates(); } }; });
-        document.querySelectorAll('.delete-task').forEach(btn => { btn.onclick = () => { const task = currentTasks.find(t => t.id == btn.dataset.id); if(task) { if(!task.completed) deductPoints(10, `Deleted task: "${task.title.substring(0,30)}"`); currentTasks = currentTasks.filter(t => t.id != btn.dataset.id); saveTasksHistory(); renderTasks(); updateInsightDates(); } }; });
+        
+        document.querySelectorAll('.complete-task').forEach(btn => { btn.onclick = () => { 
+            const task = currentTasks.find(t => t.id == btn.dataset.id); 
+            if(task && !task.completed) { 
+                task.completed = true; 
+                addPoints(10, `Completed: "${task.title.substring(0,30)}"`); 
+                saveTasksHistory(); 
+                renderTasks(); 
+                updateInsightDates(); 
+            } 
+        }; });
+        
+        document.querySelectorAll('.delete-task').forEach(btn => { btn.onclick = () => { 
+            const task = currentTasks.find(t => t.id == btn.dataset.id); 
+            if(task) { 
+                // Deduct points if the task was completed (undo the points earned)
+                if(task.completed) {
+                    deductPoints(10, `Deleted completed task: "${task.title.substring(0,30)}"`);
+                }
+                currentTasks = currentTasks.filter(t => t.id != btn.dataset.id); 
+                saveTasksHistory(); 
+                renderTasks(); 
+                updateInsightDates(); 
+            } 
+        }; });
     }
     function addTask(title) { if(title.trim()) { currentTasks.push({ id: Date.now(), title: title.trim(), completed: false }); saveTasksHistory(); renderTasks(); updateInsightDates(); } }
 
@@ -1000,8 +922,8 @@
             <div class="word-item">
                 <div style="flex:1">
                     <div class="todo-text">📖 ${escapeHtml(w.term)}</div>
-                    <div class="word-details" style="font-size:0.8rem; color:var(--text-secondary);">📝 ${escapeHtml(w.meaning)}</div>
-                    <div class="word-details" style="font-size:0.75rem;">🔗 ${escapeHtml(w.synonyms || '-')} | 🚫 ${escapeHtml(w.antonyms || '-')}</div>
+                    <div class="word-details">📝 ${escapeHtml(w.meaning)}</div>
+                    <div class="word-details">🔗 ${escapeHtml(w.synonyms || '-')} | 🚫 ${escapeHtml(w.antonyms || '-')}</div>
                 </div>
                 <button data-id="${w.id}" data-term="${escapeHtml(w.term)}" class="delete-word" style="background:var(--danger);">🗑️ Delete (-5)</button>
             </div>
@@ -1045,7 +967,7 @@
         const container = document.getElementById("healthEntriesList"); 
         if(!container) return; 
         if(!healthLogs.length) { container.innerHTML = "<div style='padding:1rem; text-align:center;'>No health logs yet</div>"; return; } 
-        container.innerHTML = healthLogs.map(h => `<div class="todo-item" style="justify-content:space-between; flex-wrap:wrap;"><div><strong>📅 ${h.date}</strong><br>🥗 ${h.food ? '✅ Yes' : '❌ No'} | 🏋️ ${h.workout ? '✅ Done' : '❌ Not done'}</div><button data-date="${h.date}" class="delete-health" style="background:var(--danger);">Delete (-${(h.food?5:0)+(h.workout?5:0)})</button></div>`).join('');
+        container.innerHTML = healthLogs.map(h => `<div class="todo-item" style="justify-content:space-between;"><div><strong>📅 ${h.date}</strong><br>🥗 ${h.food ? '✅ Yes' : '❌ No'} | 🏋️ ${h.workout ? '✅ Done' : '❌ Not done'}</div><button data-date="${h.date}" class="delete-health" style="background:var(--danger);">Delete (-${(h.food?5:0)+(h.workout?5:0)})</button></div>`).join('');
         document.querySelectorAll('.delete-health').forEach(btn => { btn.onclick = () => { deleteHealthEntry(btn.dataset.date); }; }); 
     }
 
@@ -1096,6 +1018,7 @@
             const totalSpent = filtered.reduce((sum, r) => sum + r.cost, 0);
             container.innerHTML = `<div class="stats-badge">🎁 Total Rewards Redeemed: ${filtered.length} (${totalSpent.toLocaleString()} points spent)</div>` + filtered.map(r => `<div class="data-entry"><strong>📅 ${r.date}</strong><br>${r.icon} ${r.name} - ${r.cost.toLocaleString()} points</div>`).join('');
         }
+        else if(type === 'custom') { renderCustomSectionsData(selectedDate, container); }
     }
 
     // ========== CUSTOM SECTIONS ==========
@@ -1107,6 +1030,7 @@
     function deleteCustomSection(sectionId) { customSections = customSections.filter(s => s.id !== sectionId); saveCustomSections(); rebuildTabs(); }
     function renderCustomSections() { const container = document.getElementById('customSectionsContainer'); if(!container) return; container.innerHTML = customSections.map(section => `<div id="tab-custom-${section.id}" class="panel"><div class="card"><div class="card-title">📌 ${escapeHtml(section.name)}</div><div id="custom-entries-${section.id}" style="max-height:300px; overflow-y:auto; margin-bottom:1rem;"></div><div style="display:flex; gap:10px;"><input type="text" id="custom-input-${section.id}" placeholder="Add entry..." style="flex:2;"><button onclick="addCustomEntry(${section.id}, document.getElementById('custom-input-${section.id}').value); document.getElementById('custom-input-${section.id}').value='';">➕ Add Entry</button></div></div></div>`).join('');
         customSections.forEach(section => { const entriesContainer = document.getElementById(`custom-entries-${section.id}`); if(entriesContainer) { entriesContainer.innerHTML = section.entries.slice().reverse().map(e => `<div class="data-entry"><strong>📅 ${e.date}</strong><br>${escapeHtml(e.text)}</div>`).join('') || '<div class="data-entry">No entries yet</div>'; } }); }
+    function renderCustomSectionsData(selectedDate, container) { let allEntries = []; customSections.forEach(section => { let entries = section.entries; if(selectedDate !== 'all') entries = entries.filter(e => e.date === selectedDate); entries.forEach(e => allEntries.push({ section: section.name, ...e })); }); allEntries.sort((a,b)=>b.date.localeCompare(a.date)); container.innerHTML = `<div class="stats-badge">📌 Custom Sections: ${customSections.length} sections</div>` + allEntries.map(e => `<div class="data-entry"><strong>📅 ${e.date} · ${escapeHtml(e.section)}</strong><br>${escapeHtml(e.text)}</div>`).join('') || '<div class="data-entry">No custom entries yet</div>'; }
     function addTab(sectionName) { const tabsContainer = document.getElementById('tabsContainer'); const tabBtn = document.createElement('button'); tabBtn.className = 'tab-btn'; tabBtn.setAttribute('data-tab', `tab-custom-${customSections[customSections.length-1].id}`); tabBtn.innerHTML = `📌 ${escapeHtml(sectionName)} <span class="tab-close" data-id="${customSections[customSections.length-1].id}">✕</span>`; tabsContainer.appendChild(tabBtn); attachTabEvents(); }
     function rebuildTabs() { const tabsContainer = document.getElementById('tabsContainer'); const originalTabs = Array.from(tabsContainer.children).filter(btn => !btn.innerHTML.includes('tab-custom-')); tabsContainer.innerHTML = ''; originalTabs.forEach(btn => tabsContainer.appendChild(btn)); customSections.forEach(section => { const tabBtn = document.createElement('button'); tabBtn.className = 'tab-btn'; tabBtn.setAttribute('data-tab', `tab-custom-${section.id}`); tabBtn.innerHTML = `📌 ${escapeHtml(section.name)} <span class="tab-close" data-id="${section.id}">✕</span>`; tabsContainer.appendChild(tabBtn); }); attachTabEvents(); }
     function attachTabEvents() { document.querySelectorAll('.tab-btn').forEach(btn => { btn.onclick = (e) => { if(e.target.classList.contains('tab-close')) { const id = parseInt(e.target.dataset.id); deleteCustomSection(id); return; } document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active-panel')); document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); const tabId = btn.getAttribute('data-tab'); const panel = document.getElementById(tabId); if(panel) panel.classList.add('active-panel'); btn.classList.add('active'); }; }); }
@@ -1131,7 +1055,6 @@
         document.getElementById('healthDate').value = getTodayStr();
         attachTabEvents();
         updateInsightDates();
-        updateProgressBar();
         document.addEventListener('visibilitychange', () => { if (!document.hidden && isTimerRunning) updateTimerDisplay(); });
     });
 </script>
